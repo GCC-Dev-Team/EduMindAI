@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://114.132.67.226:5432/edumindai
+    username: root
+    password: abC123456@
+  profiles:
+    active: dev
