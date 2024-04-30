@@ -1,7 +1,9 @@
 package edumindai.mapper;
 
 
+import edumindai.model.entity.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
 * @author ljz20
@@ -10,7 +12,11 @@ import org.apache.ibatis.annotations.Mapper;
 * @Entity generator.domain.Users
 */
 @Mapper
-public interface UsersMapper{
+public interface UserMapper {
+
+    User findUserByEmail(@Param("email") String email);
+
+    User findUserByPhone(@Param("phone") String phone);
 
 }
 

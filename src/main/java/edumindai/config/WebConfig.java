@@ -3,10 +3,11 @@ package edumindai.config;
 
 
 import org.springframework.context.annotation.Configuration;
+
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Configuration
+@Configuration  //标记此类为一个springboot的配置类
 public class WebConfig implements WebMvcConfigurer {
 
 

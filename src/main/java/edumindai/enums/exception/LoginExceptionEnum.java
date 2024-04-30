@@ -1,7 +1,8 @@
 package edumindai.enums.exception;
 
 public enum LoginExceptionEnum {
-    WX_CODE_ERROR("微信code错误",1001),
+    LOGIN_PARAMETER_ERROR("用户名并非邮箱或者手机号",1001),
+    QUERY_USER_ERROR("查询用户异常",1000),
     SQL_INSERT_ERROR("注册用户异常",1002);
 
 

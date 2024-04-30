@@ -15,7 +15,7 @@ import java.util.Date;
  */
 
 @Data
-public class Users implements Serializable {
+public class User implements Serializable {
     /**
      * id
      */
@@ -23,44 +23,49 @@ public class Users implements Serializable {
     private String id;
 
     /**
-     * 
+     * 用户昵称
      */
     private String nickname;
 
     /**
-     * 
+     * 头像
      */
     private String avatar;
 
     /**
-     * 
+     * 用户类型
      */
-    private UserTypeEnum type;
+    private UserTypeEnum types;
 
     /**
-     * 
+     * 用户状态
      */
     private UserStatusEnum status;
 
     /**
-     * 
+     * 邮箱
      */
     private String email;
 
     /**
-     * 
+     * 手机号
      */
     private String phone;
 
     /**
-     * 
+     * 创建时间
      */
     private Date createAt;
 
     /**
-     * 
+     * 更新时间
      */
     private Date updateAt;
+    /**
+     * 密码
+     */
+
+    private String password;
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -76,11 +81,11 @@ public class Users implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        Users other = (Users) that;
+        User other = (User) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getNickname() == null ? other.getNickname() == null : this.getNickname().equals(other.getNickname()))
             && (this.getAvatar() == null ? other.getAvatar() == null : this.getAvatar().equals(other.getAvatar()))
-            && (this.getType() == null ? other.getType() == null : this.getType().equals(other.getType()))
+            && (this.getTypes() == null ? other.getTypes() == null : this.getTypes().equals(other.getTypes()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
             && (this.getEmail() == null ? other.getEmail() == null : this.getEmail().equals(other.getEmail()))
             && (this.getPhone() == null ? other.getPhone() == null : this.getPhone().equals(other.getPhone()))
@@ -95,7 +100,7 @@ public class Users implements Serializable {
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getNickname() == null) ? 0 : getNickname().hashCode());
         result = prime * result + ((getAvatar() == null) ? 0 : getAvatar().hashCode());
-        result = prime * result + ((getType() == null) ? 0 : getType().hashCode());
+        result = prime * result + ((getTypes() == null) ? 0 : getTypes().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getEmail() == null) ? 0 : getEmail().hashCode());
         result = prime * result + ((getPhone() == null) ? 0 : getPhone().hashCode());
@@ -113,7 +118,7 @@ public class Users implements Serializable {
         sb.append(", id=").append(id);
         sb.append(", nickname=").append(nickname);
         sb.append(", avatar=").append(avatar);
-        sb.append(", type=").append(type);
+        sb.append(", type=").append(types);
         sb.append(", status=").append(status);
         sb.append(", email=").append(email);
         sb.append(", phone=").append(phone);
