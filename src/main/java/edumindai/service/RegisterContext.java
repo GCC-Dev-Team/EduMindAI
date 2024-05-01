@@ -1,6 +1,6 @@
 package edumindai.service;
 
-import edumindai.enums.RegisterStrategyType;
+import edumindai.enums.RegisterPattern;
 import edumindai.enums.exception.RegisterExceptionEnum;
 import edumindai.exception.RegisterServiceException;
 import edumindai.model.dto.RegisterRequest;
@@ -16,9 +16,9 @@ public class RegisterContext {
 
     private final RegisterStrategy registerStrategy;
 
-    public RegisterContext(RegisterStrategyType registerStrategyType)
+    public RegisterContext(RegisterPattern registerPattern)
     {
-        switch (registerStrategyType){
+        switch (registerPattern){
             case Phone:
 
                 registerStrategy = new PhoneRegisterStrategy();

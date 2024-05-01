@@ -3,7 +3,7 @@ package edumindai.enums;
 /**
  * 注册策略类型
  */
-public enum RegisterStrategyType {
+public enum RegisterPattern {
     /**
      * 手机号
      */

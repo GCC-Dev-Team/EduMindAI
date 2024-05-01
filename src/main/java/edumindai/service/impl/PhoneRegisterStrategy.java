@@ -1,5 +1,6 @@
 package edumindai.service.impl;
 
+import edumindai.enums.RegisterPattern;
 import edumindai.enums.exception.RegisterExceptionEnum;
 import edumindai.exception.RegisterServiceException;
 import edumindai.model.dto.RegisterRequest;
@@ -27,7 +28,12 @@ public class PhoneRegisterStrategy implements RegisterStrategy {
 
             verificationService.verificationCodeCheck(registerRequest.getPhoneNumber(), registerRequest.getVerificationCode());
 
-            return UserServiceImpl.createUser(registerRequest);
+
+            User user = UserServiceImpl.createUser(registerRequest);
+
+            user.setRegisterPattern(RegisterPattern.Phone);
+
+            return user;
 
         }catch (Exception e){
 

@@ -3,15 +3,17 @@ package edumindai.service.impl;
 import edumindai.common.Response;
 import edumindai.enums.db.UserStatusEnum;
 import edumindai.enums.db.UserTypeEnum;
+import edumindai.enums.exception.LoginExceptionEnum;
 import edumindai.enums.exception.RegisterExceptionEnum;
+import edumindai.exception.LoginServiceException;
 import edumindai.exception.RegisterServiceException;
-import edumindai.exception.ServiceException;
 import edumindai.mapper.UserMapper;
 import edumindai.model.dto.LoginRequest;
 import edumindai.model.dto.RegisterRequest;
 import edumindai.model.entity.User;
 import edumindai.model.vo.LoginVO;
 import edumindai.model.vo.RegisterVO;
+import edumindai.service.LoginContext;
 import edumindai.service.RegisterContext;
 import edumindai.service.UserService;
 import edumindai.utils.ContextHolder;
@@ -22,8 +24,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -48,19 +48,20 @@ public class UserServiceImpl implements UserService {
     public Response<LoginVO> login(LoginRequest loginRequest) {
 
 
-//        // 传入信息进行认证 魔改选择,加个选择器(context)然后枚举选择然后传入传出
-//        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(loginRequest.getStudentNo(),loginRequest.getPassword());
-//
-//
-//        Authentication authenticate = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+        // 传入信息进行认证 魔改选择,加个选择器(context)然后枚举选择然后传入传出
+        LoginContext loginContext = new LoginContext(loginRequest);
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =loginContext.getUsernamePasswordAuthenticationToken();
+
+        //security发起验证
+        Authentication authenticate = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
         //security校验成功不会返回null,校验失败会返回null
 
-//        if(Objects.isNull(authenticate)){
-//
-//            //密码错误
-//           // throw new ServiceException(UserServiceErrorEnum.USER_LOGIN_ERROR.getMessage(),UserServiceErrorEnum.USER_LOGIN_ERROR.getCode());
-//        }
+        if(Objects.isNull(authenticate)){
+
+            //密码错误
+           throw new LoginServiceException(LoginExceptionEnum.PASSWORD_ERROR);
+        }
 
         //authenticate通过验证已经将用户信息保存在线程中,SecurityContextHolder,自己用直接的信息,
         //注意更新信息
@@ -68,7 +69,7 @@ public class UserServiceImpl implements UserService {
         User user = ContextHolder.getUser();
 
         //TODO 生成token信息
-      //  String token = JwtUtil.createJWT(user);
+        //String token = JwtUtil.createJWT(user);
 
 //        return new Response<>(1,new LoginVO(token),"登陆成功");
 

@@ -3,6 +3,7 @@ package edumindai.service.impl.security;
 import edumindai.model.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.List;
@@ -12,7 +13,6 @@ import java.util.List;
  * 根据这个接口的方法去get 用户名和密码(真实的),然后去和输入的去对比
  * 认证步骤步骤7
  */
-
 public class EmailLoginUserDetailsImpl implements UserDetails {
 
     private User user;

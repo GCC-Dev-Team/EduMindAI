@@ -4,7 +4,7 @@ package edumindai.exception;
 import edumindai.enums.exception.RegisterExceptionEnum;
 
 /**
- * 登陆异常
+ * 注册异常
  */
 public class RegisterServiceException extends ServiceException{
 

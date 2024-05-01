@@ -1,9 +1,12 @@
 package edumindai.model.entity;
 
 
+import edumindai.enums.RegisterPattern;
 import edumindai.enums.db.UserStatusEnum;
 import edumindai.enums.db.UserTypeEnum;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -13,7 +16,8 @@ import java.util.Date;
  * 
  * user映射实体类
  */
-
+@AllArgsConstructor
+@NoArgsConstructor
 public class User implements Serializable {
     /**
      * id
@@ -65,6 +69,21 @@ public class User implements Serializable {
      */
 
     private String password;
+
+    /**
+     * 注册模式
+     */
+    private RegisterPattern registerPattern;
+
+    public RegisterPattern getRegisterPattern() {
+        return registerPattern;
+    }
+
+    public void setRegisterPattern(RegisterPattern registerPattern) {
+        this.registerPattern = registerPattern;
+    }
+
+
 
     @Serial
     private static final long serialVersionUID = 1L;

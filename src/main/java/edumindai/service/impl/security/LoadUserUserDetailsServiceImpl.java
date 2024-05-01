@@ -2,6 +2,7 @@ package edumindai.service.impl.security;
 
 import edumindai.enums.exception.RegisterExceptionEnum;
 import edumindai.exception.RegisterServiceException;
+import edumindai.mapper.UserMapper;
 import edumindai.model.entity.User;
 import edumindai.service.impl.UserServiceImpl;
 import edumindai.utils.RegexCheckUtil;
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Component;
 public class LoadUserUserDetailsServiceImpl implements UserDetailsService {
 
     @Resource
-    private UserServiceImpl userService;
+    private UserMapper userMapper;
 
     /**
      * 根据用户名查询用户
@@ -37,7 +38,7 @@ public class LoadUserUserDetailsServiceImpl implements UserDetailsService {
         //判断是否是邮箱,是的话是邮箱登陆
         if (RegexCheckUtil.isEmail(username)) {
 
-            User user = userService.getUserByEmail(username);
+            User user = userMapper.findUserByEmail(username);
 
 
             return new EmailLoginUserDetailsImpl(user);
@@ -46,7 +47,7 @@ public class LoadUserUserDetailsServiceImpl implements UserDetailsService {
         } else if (RegexCheckUtil.isPhone(username)) {
             //判断是否是手机号,是的话是手机号登陆
 
-            User user = userService.getUserByPhone(username);
+            User user = userMapper.findUserByPhone(username);
 
             return new PhoneLoginUserDetailsImpl(user);
         }

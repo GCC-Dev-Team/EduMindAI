@@ -1,28 +1,55 @@
 package edumindai.utils;
 
 
+import edumindai.model.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.util.Base64;
-import java.util.Date;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 
 /**
  * JWT工具类
  */
+
 public class JwtUtil {
 
     //有效期为
     public static final Long JWT_TTL = 7*24*24*60 * 60 *1000L;// 60 * 60 *1000  一个小时 24*7天
     //设置秘钥明文
     public static final String JWT_KEY = "chaoxin";
+
+    public static String generateJwtToken(UserDetails userDetails) {
+        Map<String, Object> claims = new HashMap<>();
+
+        // 设置User对象的属性到claims中
+        claims.put("userDetails", userDetails);
+
+        // 生成JWT
+        String token = JwtUtil.createJWT(claims);
+
+        return token;
+    }
+
+    public static UserDetails getUserDetailsFromToken(String token) {
+        try {
+            Claims claims = parseJWT(token);
+
+            UserDetails userDetails = (UserDetails) claims.get("userDetails");
+
+            return userDetails;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public static String getUUID(){
         String token = UUID.randomUUID().toString().replaceAll("-", "");

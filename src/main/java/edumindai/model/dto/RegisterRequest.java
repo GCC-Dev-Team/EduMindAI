@@ -1,6 +1,6 @@
 package edumindai.model.dto;
 
-import edumindai.enums.RegisterStrategyType;
+import edumindai.enums.RegisterPattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,5 +30,5 @@ public class RegisterRequest {
     /**
      * 注册模式
      */
-    private RegisterStrategyType registerPattern;
+    private RegisterPattern registerPattern;
 }
