@@ -1,9 +1,7 @@
 package edumindai.service.impl.security;
 
-import edumindai.enums.exception.LoginExceptionEnum;
-import edumindai.exception.LoginServiceException;
-import edumindai.model.entity.EmailLoginUserDetailsImpl;
-import edumindai.model.entity.PhoneLoginUserDetailsImpl;
+import edumindai.enums.exception.RegisterExceptionEnum;
+import edumindai.exception.RegisterServiceException;
 import edumindai.model.entity.User;
 import edumindai.service.impl.UserServiceImpl;
 import edumindai.utils.RegexCheckUtil;
@@ -53,7 +51,7 @@ public class LoadUserUserDetailsServiceImpl implements UserDetailsService {
             return new PhoneLoginUserDetailsImpl(user);
         }
 
-        throw new LoginServiceException(LoginExceptionEnum.LOGIN_PARAMETER_ERROR);
+        throw new RegisterServiceException(RegisterExceptionEnum.LOGIN_PARAMETER_ERROR);
 
     }
 }

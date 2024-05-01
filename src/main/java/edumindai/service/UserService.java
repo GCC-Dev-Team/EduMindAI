@@ -28,7 +28,17 @@ public interface UserService {
      */
     Response<RegisterVO> register(@RequestBody RegisterRequest registerRequest);
 
+    /**
+     * 获取用户通过手机号
+     * @param phone 手机号
+     * @return User 用户
+     */
     User getUserByPhone(String phone);
 
+    /**
+     * 获取用户通过邮箱
+     * @param email 邮箱
+     * @return User 用户
+     */
     User getUserByEmail(String email);
 }

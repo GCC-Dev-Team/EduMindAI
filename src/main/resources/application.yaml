@@ -5,3 +5,29 @@ spring:
     password: abC123456@
   profiles:
     active: dev
+
+  data:
+    redis:
+      host: 114.132.67.226
+      database: 5
+      password: abC123456@
+      port: 6379
+
+  mail:
+    host: smtp.163.com
+    port: 465
+    username: ljz2020comeon@163.com
+    password: QSWTCTJFMQRQEIIR
+    from: ljz2020comeon@163.com
+#    因为25端口被封闭,所以只能使用smtps,465端口进行发送邮件
+    protocol: smtps
+
+mybatis:
+  configuration:
+    #        ??????????
+    map-underscore-to-camel-case: true
+  #mapper?xml?????
+  mapper-locations: classpath:mapper/*.xml
+
+  ##不设置包,找不到那个user类,传入参数的选择,就是insert标签的parameterType
+  type-aliases-package: edumindai.model.entity

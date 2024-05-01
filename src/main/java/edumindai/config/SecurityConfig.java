@@ -53,7 +53,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(
             		//requestMatchers 指定匹配路径
             		//permitAll 让security跳过之前通过requestMatchers匹配到的路径，
-                auth -> auth.requestMatchers("/user/login","user/signup","/user/verify-face","/dashboard/heat-map","/dashboard/years","/dashboard/location").permitAll()
+                auth -> auth.requestMatchers("/user/login","user/signup","/user/verify-face").permitAll()
             		//anyRequest 指定除requestMatchers匹配路径之外的其他路径
             		//authenticated 让anyRequest匹配到的所有路径都通过security校验
                         .anyRequest().authenticated()

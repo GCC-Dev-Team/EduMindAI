@@ -1,8 +1,8 @@
 package edumindai.utils;
 
 
-import edumindai.model.entity.EmailLoginUserDetailsImpl;
-import edumindai.model.entity.PhoneLoginUserDetailsImpl;
+import edumindai.service.impl.security.EmailLoginUserDetailsImpl;
+import edumindai.service.impl.security.PhoneLoginUserDetailsImpl;
 import edumindai.model.entity.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

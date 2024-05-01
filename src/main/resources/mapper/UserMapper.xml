@@ -5,37 +5,92 @@
 <mapper namespace="edumindai.mapper.UserMapper">
 
     <resultMap id="BaseResultMap" type="edumindai.model.entity.User">
-            <id property="id" column="id" jdbcType="OTHER"/>
-            <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
-            <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
-            <result property="types" column="types" jdbcType="OTHER"/>
-            <result property="status" column="status" jdbcType="OTHER"/>
-            <result property="email" column="email" jdbcType="VARCHAR"/>
-            <result property="phone" column="phone" jdbcType="VARCHAR"/>
-            <result property="createAt" column="create_at" jdbcType="TIMESTAMP"/>
-            <result property="updateAt" column="update_at" jdbcType="TIMESTAMP"/>
-            <result property="password" column="password" jdbcType="VARCHAR"/>
+        <id property="id" column="id" jdbcType="OTHER"/>
+        <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+        <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
+        <result property="types" column="types" jdbcType="OTHER"/>
+        <result property="status" column="status" jdbcType="OTHER"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="phone" column="phone" jdbcType="VARCHAR"/>
+        <result property="createAt" column="create_at" jdbcType="TIMESTAMP"/>
+        <result property="updateAt" column="update_at" jdbcType="TIMESTAMP"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,nickname,avatar,
+        id
+        ,nickname,avatar,
         types,status,email,
         phone,create_at,update_at,password
     </sql>
 
     <select id="findUserByEmail" resultMap="BaseResultMap">
-        select id,nickname,avatar,
-               types,status,email,
-               phone,create_at,update_at,password
+        select id,
+               nickname,
+               avatar,
+               types,
+               status,
+               email,
+               phone,
+               create_at,
+               update_at,
+               password
         from users
         where email = #{email}
     </select>
 
     <select id="findUserByPhone" resultMap="BaseResultMap">
-        select id,nickname,avatar,
-               types,status,email,
-               phone,create_at,update_at,password
+        select id,
+               nickname,
+               avatar,
+               types,
+               status,
+               email,
+               phone,
+               create_at,
+               update_at,
+               password
         from users
         where phone = #{phone}
     </select>
+
+    <insert id="insertUser" parameterType="user">
+        insert into users
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+
+            <if test="nickname != null">nickname,</if>
+
+            <if test="avatar != null">avatar,</if>
+
+            <if test="types != null">types,</if>
+
+            <if test="status != null">status,</if>
+
+            <if test="email != null">email,</if>
+
+            <if test="phone != null">phone,</if>
+
+            <if test="password != null">password,</if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+
+            <if test="id != null">#{id}::uuid,</if>
+
+            <if test="nickname != null">#{nickname},</if>
+
+            <if test="avatar != null">#{avatar},</if>
+
+            <if test="types != null">#{types}::user_type,</if>
+
+            <if test="status != null">#{status}::user_status,</if>
+
+            <if test="email != null">#{email},</if>
+
+            <if test="phone != null">#{phone},</if>
+
+            <if test="password != null">#{password},</if>
+
+        </trim>
+    </insert>
 </mapper>

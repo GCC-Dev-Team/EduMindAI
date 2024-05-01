@@ -18,6 +18,7 @@ public interface UserMapper {
 
     User findUserByPhone(@Param("phone") String phone);
 
+    boolean insertUser(User user);
 }
 
 
