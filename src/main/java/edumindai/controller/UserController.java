@@ -26,4 +26,6 @@ public class UserController {
     public Response<RegisterVO> register(@RequestBody RegisterRequest registerRequest) {
         return userService.register(registerRequest);
     }
+
+
 }

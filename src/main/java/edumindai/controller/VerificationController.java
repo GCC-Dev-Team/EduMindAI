@@ -18,4 +18,10 @@ public class VerificationController {
     {
         return verificationService.verificationCode(phoneNumber,email);
     }
+
+    @GetMapping("/test")
+    public Response test()
+    {
+        return Response.success(200,"测试成功");
+    }
 }

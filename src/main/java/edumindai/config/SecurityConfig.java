@@ -1,7 +1,9 @@
 package edumindai.config;
 
 
+import edumindai.filter.JwtAuthenticationTokenFilter;
 import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +15,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @Configuration  //标记此类为一个springboot的配置类
@@ -21,8 +24,9 @@ public class SecurityConfig {
     @Resource
     private UserDetailsService userDetails;
 
-//    @Resource
-//    private JwtRequestFilter JwtRequestFilter;
+
+    @Autowired
+    JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
     /*
     密码加密器，
@@ -65,7 +69,7 @@ public class SecurityConfig {
 
         
         //将自定义的token认证过滤器加入到security-filterChian中，并指定其位置
-      //  http.addFilterBefore(JwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
