@@ -19,7 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity  //开启security基于web开发的安全机制
 public class SecurityConfig {
     @Resource
-    private UserDetailsService UserDetails;
+    private UserDetailsService userDetails;
 
 //    @Resource
 //    private JwtRequestFilter JwtRequestFilter;
@@ -40,7 +40,7 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
         //设置securityUserDetailService，告知security框架，按照指定的类进行身份校验
-        daoAuthenticationProvider.setUserDetailsService(UserDetails);
+        daoAuthenticationProvider.setUserDetailsService(userDetails);
         daoAuthenticationProvider.setPasswordEncoder(new BCryptPasswordEncoder());
         return new ProviderManager(daoAuthenticationProvider);
 
@@ -53,7 +53,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(
             		//requestMatchers 指定匹配路径
             		//permitAll 让security跳过之前通过requestMatchers匹配到的路径，
-                auth -> auth.requestMatchers("/user/login","user/signup","/user/verify-face").permitAll()
+                auth -> auth.requestMatchers("/user/login","user/register","/verificationCode").permitAll()
             		//anyRequest 指定除requestMatchers匹配路径之外的其他路径
             		//authenticated 让anyRequest匹配到的所有路径都通过security校验
                         .anyRequest().authenticated()

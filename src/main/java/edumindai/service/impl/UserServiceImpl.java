@@ -68,12 +68,10 @@ public class UserServiceImpl implements UserService {
 
         User user = ContextHolder.getUser();
 
-        //TODO 生成token信息
-        //String token = JwtUtil.createJWT(user);
 
-//        return new Response<>(1,new LoginVO(token),"登陆成功");
+        String token = JwtUtil.generateJwtToken(user);
 
-        return null;
+       return new Response<>(1,"登陆成功",new LoginVO(token));
     }
 
     @Override
@@ -89,10 +87,10 @@ public class UserServiceImpl implements UserService {
 
         //创建token返回token
 
-        //TODO 登陆结合
-//        JwtUtil.createJWT()
 
-        return null;
+        String token = JwtUtil.generateJwtToken(user);
+
+        return new Response<>(1,"注册成功",new RegisterVO(token));
     }
 
     /**

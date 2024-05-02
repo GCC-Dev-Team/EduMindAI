@@ -66,15 +66,15 @@ class EduMindAiApplicationTests {
         //emailService.sendSimpleMail("2848762983@qq.com","测试","测试");
 
 
-        EmailLoginUserDetailsImpl emailLoginUserDetails = new EmailLoginUserDetailsImpl(user);
+        //EmailLoginUserDetailsImpl emailLoginUserDetails = new EmailLoginUserDetailsImpl(user);
 
-        String s = JwtUtil.generateJwtToken(emailLoginUserDetails);
+        String s = JwtUtil.generateJwtToken(user);
 
         System.out.println(s);
 
-        EmailLoginUserDetailsImpl userDetailsFromToken = (EmailLoginUserDetailsImpl)JwtUtil.getUserDetailsFromToken(s);
+        User userDetailsFromToken = (User)JwtUtil.getUserFromToken(s);
 
-        System.out.println(userDetailsFromToken.getUser());
+        System.out.println(userDetailsFromToken.getTypes());
 
 
     }

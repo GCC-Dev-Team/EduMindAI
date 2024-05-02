@@ -1,11 +1,15 @@
 package edumindai.utils;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.util.BeanUtil;
 import edumindai.model.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -25,11 +29,16 @@ public class JwtUtil {
     //设置秘钥明文
     public static final String JWT_KEY = "chaoxin";
 
-    public static String generateJwtToken(UserDetails userDetails) {
+    /**
+     * 根据用户生成token
+     * @param user user
+     * @return token
+     */
+    public static String generateJwtToken(User user) {
         Map<String, Object> claims = new HashMap<>();
 
         // 设置User对象的属性到claims中
-        claims.put("userDetails", userDetails);
+        claims.put("user", user);
 
         // 生成JWT
         String token = JwtUtil.createJWT(claims);
@@ -37,13 +46,23 @@ public class JwtUtil {
         return token;
     }
 
-    public static UserDetails getUserDetailsFromToken(String token) {
+    /**
+     * 根据token获取user
+     * @param token token
+     * @return user
+     */
+
+    public static User getUserFromToken(String token) {
         try {
             Claims claims = parseJWT(token);
 
-            UserDetails userDetails = (UserDetails) claims.get("userDetails");
+            //获取回来是map
+            Map map = (Map) claims.get("user");
 
-            return userDetails;
+            //map转成java对象
+            User user = JSONObject.parseObject(JSON.toJSONString(map), User.class);
+
+            return user;
 
         } catch (Exception e) {
             e.printStackTrace();
