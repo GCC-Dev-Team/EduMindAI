@@ -9,7 +9,7 @@ import edumindai.utils.RedisCache;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * 验证码服务接口,包括验证码生成和验证码发送以及验证码保存
  */
-@Service
+@Component
 public class VerificationServiceImpl implements VerificationService {
 
     private static final Logger log = LoggerFactory.getLogger(VerificationServiceImpl.class);
@@ -48,7 +48,7 @@ public class VerificationServiceImpl implements VerificationService {
             //TODO 手机验证码发送功能,所以直接返回先,后续发送给手机
 
 
-            return Response.success(1, "手机验证码发送成功"+verifyCode);
+            return Response.success(1, "发送成功"+verifyCode);
 
         } else if (email != null) {
 
@@ -59,7 +59,7 @@ public class VerificationServiceImpl implements VerificationService {
             emailService.sendSimpleMail(email, "验证码", verifyCodeContent);
 
 
-            return Response.success(1, "验证码发送成功");
+            return Response.success(1, "发送成功");
         }
 
         throw new RegisterServiceException(RegisterExceptionEnum.VERIFY_QUERY_ERROR);
@@ -69,12 +69,12 @@ public class VerificationServiceImpl implements VerificationService {
 
     /**
      * 检验验证码
-     * @param key 手机号或者邮箱
+     *
+     * @param key              手机号或者邮箱
      * @param verificationCode 验证码
-     * @return 验证成功返回true 失败 false 抛出异常
      */
     @Override
-    public boolean verificationCodeCheck(String key, String verificationCode) throws Exception {
+    public void verificationCodeCheck(String key, String verificationCode) throws Exception {
         boolean verifyBool = false;
         try {
 
@@ -85,7 +85,7 @@ public class VerificationServiceImpl implements VerificationService {
 
             log.error(e.getMessage());
 
-            throw new Exception("验证码错误,没有找到手机号");
+            throw new Exception("验证码错误,没有找到手机号或邮箱");
 
         }
         //查询通过了,可以执行删除并且返回业务层说验证通过
@@ -94,7 +94,7 @@ public class VerificationServiceImpl implements VerificationService {
 
             redisCache.deleteObject(key);
 
-            return true;
+            return;
         }
 
         throw new Exception("验证码校验错误");

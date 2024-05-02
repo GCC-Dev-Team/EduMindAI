@@ -74,7 +74,7 @@
 
             <if test="phone != null">phone,</if>
 
-            <if test="password != null">password,</if>,
+            <if test="password != null">password,</if>
             <if test="registerPattern != null">register_pattern,</if>
         </trim>
         <trim prefix="values(" suffix=")" suffixOverrides=",">
@@ -94,7 +94,8 @@
             <if test="phone != null">#{phone},</if>
 
             <if test="password != null">#{password},</if>
-            <if test="registerPattern != null">#{register_pattern}::user_register_pattern,</if>
+
+            <if test="registerPattern != null">#{registerPattern}::user_register_pattern,</if>
 
         </trim>
     </insert>

@@ -21,7 +21,7 @@ public class Response<T> implements Serializable {
     /**
      * 消息
      */
-    private String message;
+    private String msg;
 
     /**
      * 数据
@@ -44,7 +44,7 @@ public class Response<T> implements Serializable {
      * @param message 信息
      */
     public static Response success(int code,String message){
-        return new Response(code,null,message);
+        return new Response(code,message,null);
     }
 
 

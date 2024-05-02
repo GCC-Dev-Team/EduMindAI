@@ -4,7 +4,6 @@ import edumindai.enums.exception.RegisterExceptionEnum;
 import edumindai.exception.RegisterServiceException;
 import edumindai.mapper.UserMapper;
 import edumindai.model.entity.User;
-import edumindai.service.impl.UserServiceImpl;
 import edumindai.utils.RegexCheckUtil;
 import jakarta.annotation.Resource;
 import org.springframework.security.core.userdetails.UserDetails;

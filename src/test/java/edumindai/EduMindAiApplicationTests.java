@@ -5,12 +5,16 @@ import edumindai.enums.db.UserTypeEnum;
 import edumindai.mapper.UserMapper;
 import edumindai.model.entity.User;
 import edumindai.service.EmailService;
+import edumindai.service.RegisterContext;
+import edumindai.service.VerificationService;
+import edumindai.service.impl.EmailRegisterStrategy;
 import edumindai.service.impl.UserServiceImpl;
 import edumindai.service.impl.security.EmailLoginUserDetailsImpl;
 import edumindai.utils.JwtUtil;
 import edumindai.utils.RedisCache;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -34,22 +38,29 @@ class EduMindAiApplicationTests {
     @Resource
     EmailService emailService;
 
+    @Resource
+    EmailRegisterStrategy verificationService;
 
+
+    @Autowired
+    RegisterContext registerContext;
 
     @Test
     void contextLoads() {
 
+        System.out.println(registerContext);
+
 //        System.out.println(RegexCheckUtil.isPhone("19835930193"));
 //
-        User user = new User();
-        user.setId(UUID.randomUUID().toString());
-        user.setNickname("xiaoli");
-        user.setPassword("123456");
-        user.setPhone("19835930193");
-
-        user.setStatus(UserStatusEnum.NORMAL);
-
-        user.setTypes(UserTypeEnum.ADMIN);
+//        User user = new User();
+//        user.setId(UUID.randomUUID().toString());
+//        user.setNickname("xiaoli");
+//        user.setPassword("123456");
+//        user.setPhone("19835930193");
+//
+//        user.setStatus(UserStatusEnum.NORMAL);
+//
+//        user.setTypes(UserTypeEnum.ADMIN);
 //
 //
 //        userServiceImpl.saveUser(user);
@@ -67,16 +78,17 @@ class EduMindAiApplicationTests {
 
 
         //EmailLoginUserDetailsImpl emailLoginUserDetails = new EmailLoginUserDetailsImpl(user);
+//
+//        String s = JwtUtil.generateJwtToken(user);
+//
+//        System.out.println(s);
+//
+//        User userDetailsFromToken = (User)JwtUtil.getUserFromToken(s);
+//
+//        System.out.println(userDetailsFromToken.getTypes());
 
-        String s = JwtUtil.generateJwtToken(user);
 
-        System.out.println(s);
-
-        User userDetailsFromToken = (User)JwtUtil.getUserFromToken(s);
-
-        System.out.println(userDetailsFromToken.getTypes());
-
-
+//        System.out.println(verificationService);
     }
 
 

@@ -21,9 +21,11 @@ import edumindai.utils.JwtUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -44,12 +46,16 @@ public class UserServiceImpl implements UserService {
     @Resource
     AuthenticationManager authenticationManager;
 
+    @Autowired
+    RegisterContext registerContext;
+
     @Override
     public Response<LoginVO> login(LoginRequest loginRequest) {
 
 
         // 传入信息进行认证 魔改选择,加个选择器(context)然后枚举选择然后传入传出
         LoginContext loginContext = new LoginContext(loginRequest);
+
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =loginContext.getUsernamePasswordAuthenticationToken();
 
         //security发起验证
@@ -65,13 +71,15 @@ public class UserServiceImpl implements UserService {
 
         //authenticate通过验证已经将用户信息保存在线程中,SecurityContextHolder,自己用直接的信息,
         //注意更新信息
+        SecurityContextHolder.getContext().setAuthentication(authenticate);
 
         User user = ContextHolder.getUser();
 
 
         String token = JwtUtil.generateJwtToken(user);
 
-       return new Response<>(1,"登陆成功",new LoginVO(token));
+        //登陆成功
+       return new Response<>(1, "登陆成功",new LoginVO(token));
     }
 
     @Override
@@ -80,7 +88,7 @@ public class UserServiceImpl implements UserService {
 
 
         //选择策略,验证并获取用户对象
-        User user = new RegisterContext(registerRequest.getRegisterPattern()).registerOperation(registerRequest);
+        User user = registerContext.registerOperation(registerRequest);
 
         //得到用户对象,保存在数据库
         saveUser(user);

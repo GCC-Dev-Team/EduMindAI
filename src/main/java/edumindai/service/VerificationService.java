@@ -22,9 +22,9 @@ public interface VerificationService {
 
     /**
      * 验证码校验
-     * @param key 手机号或者邮箱
+     *
+     * @param key              手机号或者邮箱
      * @param verificationCode 验证码
-     * @return 验证过了返回true 验证失败是抛出异常
      */
-    boolean verificationCodeCheck(String key, String verificationCode) throws Exception;
+     void verificationCodeCheck(String key, String verificationCode) throws Exception;
 }

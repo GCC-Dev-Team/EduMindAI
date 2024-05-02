@@ -7,10 +7,11 @@ import edumindai.exception.RegisterServiceException;
 import edumindai.model.dto.RegisterRequest;
 import edumindai.model.entity.User;
 import edumindai.service.RegisterStrategy;
+
 import edumindai.service.VerificationService;
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
@@ -23,8 +24,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailRegisterStrategy implements RegisterStrategy {
 
-    @Resource
-    VerificationService verificationService;
+    @Autowired
+    private VerificationService verificationService;
 
 
     @Override

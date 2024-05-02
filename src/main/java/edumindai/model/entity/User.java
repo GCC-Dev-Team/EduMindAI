@@ -18,6 +18,7 @@ import java.util.Date;
  */
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class User implements Serializable {
     /**
      * id
@@ -75,14 +76,6 @@ public class User implements Serializable {
      */
     private RegisterPattern registerPattern;
 
-    public RegisterPattern getRegisterPattern() {
-        return registerPattern;
-    }
-
-    public void setRegisterPattern(RegisterPattern registerPattern) {
-        this.registerPattern = registerPattern;
-    }
-
 
 
     @Serial
@@ -127,103 +120,6 @@ public class User implements Serializable {
         return result;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
-        sb.append(", nickname=").append(nickname);
-        sb.append(", avatar=").append(avatar);
-        sb.append(", type=").append(types);
-        sb.append(", status=").append(status);
-        sb.append(", email=").append(email);
-        sb.append(", phone=").append(phone);
-        sb.append(", createAt=").append(createAt);
-        sb.append(", updateAt=").append(updateAt);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public UserTypeEnum getTypes() {
-        return types;
-    }
-
-    public void setTypes(UserTypeEnum types) {
-        this.types = types;
-    }
-
-    public UserStatusEnum getStatus() {
-        return status;
-    }
-
-    public void setStatus(UserStatusEnum status) {
-        this.status = status;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public Date getCreateAt() {
-        return createAt;
-    }
-
-    public void setCreateAt(Date createAt) {
-        this.createAt = createAt;
-    }
-
-    public Date getUpdateAt() {
-        return updateAt;
-    }
-
-    public void setUpdateAt(Date updateAt) {
-        this.updateAt = updateAt;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
