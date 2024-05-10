@@ -31,3 +31,22 @@ mybatis:
 
   ##不设置包,找不到那个user类,传入参数的选择,就是insert标签的parameterType
   type-aliases-package: edumindai.model.entity
+
+#讯飞api配置
+iflytek:
+  hostUrl: https://spark-api.xf-yun.com/v3.1/chat
+  apiKey: 0eed4b6468e4c5fb222b23ed6de3673e
+  apiSecret: YmUwY2IzMTkzMzBhYmRjYjM2ZThiMDIx
+  appid: f52d143b
+
+#minio的
+oss:
+  #  minio的地址
+  endpoint: http://114.132.67.226:9000
+  access-key: minio
+  secret-key: minio123
+  #  桶名
+  bucket: xiaoxin
+  #  文件地址的前缀
+  prefix: 114.132.67.226:9000/xiaoxin
+
