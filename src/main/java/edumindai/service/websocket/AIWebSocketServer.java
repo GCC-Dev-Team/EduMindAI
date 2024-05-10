@@ -3,6 +3,9 @@ package edumindai.service.websocket;
 
 import com.google.gson.Gson;
 
+import edumindai.model.entity.Answer;
+import edumindai.model.entity.Question;
+import edumindai.thread.IflytekThread;
 import jakarta.websocket.*;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
@@ -10,16 +13,18 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.util.Queue;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * AI问答websocket服务端
  */
-@ServerEndpoint("/ws/test/{userId}/{topicId}")
+@ServerEndpoint("/ws/test/{Token}/{topicId}")
 @Component
 @Slf4j
-
 public class AIWebSocketServer {
     /**
      * 与某个客户端的连接会话，需要通过它来给客户端发送数据
@@ -29,6 +34,11 @@ public class AIWebSocketServer {
      * 用户ID
      */
     private String userId;
+    /**
+     * 提供topic号给ai接口
+     */
+
+    private String topicId;
 
     /**
      * concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
@@ -43,22 +53,17 @@ public class AIWebSocketServer {
     /**
      * 链接成功调用的方法
      */
-
-    private static int accunt = 0;
     @OnOpen
-    public void onOpen(Session session, @PathParam(value = "userId") String userId) {
+    public void onOpen(Session session, @PathParam(value = "Token") String token) throws IOException {
+
+
 
         System.out.println("session地址"+session);
         this.session = session;
-        this.userId = userId;
+        this.userId = "xiaoli";
 
-        System.out.println("ws地址"+webSockets);
+        this.topicId= UUID.randomUUID().toString();
 
-        accunt++;
-        System.out.println(accunt);
-        webSockets.add(this);
-        sessionPool.put(userId, session);
-        log.info("建立与UserID：{}的消息提醒计数连接", userId);
     }
 
     /**
@@ -75,12 +80,57 @@ public class AIWebSocketServer {
      * 收到客户端消息后调用的方法
      */
     @OnMessage
-    public void onMessage(String message) {
+    public void onMessage(Session session,String message) {
         log.info("接收到UserID：{}的消息{}", userId, message);
         Gson gson = new Gson();
-//        Message message1 = gson.fromJson(message, Message.class);
+
+
+
+        Question question = new Question();
+
+        question.setTopicId(topicId);
+
+
+        //消息上下文拼接
+//        IflytekRoleContent iflytekRoleContent = new IflytekRoleContent();
+//        iflytekRoleContent.setContent("Java和python区别");
+//        iflytekRoleContent.setRole(IflytekRoleEnum.User);
+
+//        question.setType("chat");
 //
-//        sendOneMessage(message1.getToId(), message1.getContext());
+//        question.setRoleContentList();
+
+        //运用多线程,组装问答内容给多线程去执行
+        IflytekThread iflytekThread = new IflytekThread(question);
+
+        iflytekThread.start();
+
+        System.out.println("我是主线程");
+
+        while (iflytekThread.isAlive()){
+
+            System.out.println("我进来了");
+            try {
+                Thread.sleep(1000);
+
+                Queue<Answer> answers = IflytekClient.messageMap.get(topicId);
+
+                System.out.println("我又");
+                System.out.println("主线程地址"+answers);
+
+                System.out.println(IflytekClient.messageMap+"主线程map地址");
+
+                System.out.println(answers.size());
+
+                //消息保存
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        session.getAsyncRemote().sendText("我已经收到");
+
     }
 
     /**

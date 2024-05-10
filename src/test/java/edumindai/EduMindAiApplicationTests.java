@@ -1,94 +1,48 @@
 package edumindai;
 
-import edumindai.enums.db.UserStatusEnum;
-import edumindai.enums.db.UserTypeEnum;
-import edumindai.mapper.UserMapper;
-import edumindai.model.entity.User;
-import edumindai.service.EmailService;
-import edumindai.service.RegisterContext;
-import edumindai.service.VerificationService;
-import edumindai.service.impl.EmailRegisterStrategy;
-import edumindai.service.impl.UserServiceImpl;
-import edumindai.service.impl.security.EmailLoginUserDetailsImpl;
-import edumindai.utils.JwtUtil;
-import edumindai.utils.RedisCache;
+
+import cn.hutool.crypto.asymmetric.RSA;
+import com.google.gson.Gson;
+import edumindai.model.entity.AnswerRaw;
+import edumindai.model.entity.Question;
+import edumindai.service.impl.IflytekServiceImpl;
+import edumindai.utils.IflytekUtil;
+import edumindai.utils.RSAUtils;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
+import java.net.MalformedURLException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
-@SpringBootTest
+
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class EduMindAiApplicationTests {
 
-    @Resource
-    UserServiceImpl userServiceImpl;
 
-    @Resource
-    UserMapper userMapper;
-
-    @Resource
-    RedisCache redisCache;
-
-    @Resource
-    EmailService emailService;
-
-    @Resource
-    EmailRegisterStrategy verificationService;
-
-
-    @Autowired
-    RegisterContext registerContext;
 
     @Test
-    void contextLoads() {
-
-        System.out.println(registerContext);
-
-//        System.out.println(RegexCheckUtil.isPhone("19835930193"));
-//
-//        User user = new User();
-//        user.setId(UUID.randomUUID().toString());
-//        user.setNickname("xiaoli");
-//        user.setPassword("123456");
-//        user.setPhone("19835930193");
-//
-//        user.setStatus(UserStatusEnum.NORMAL);
-//
-//        user.setTypes(UserTypeEnum.ADMIN);
-//
-//
-//        userServiceImpl.saveUser(user);
-
-        //设置邮箱验证码缓存
-
-       // redisCache.setCacheObject("xiaoli@xiaodong", "278221",20, TimeUnit.SECONDS);
-
-//
-//        Map<String, Object> claims = new HashMap<>();
-//
-//        // 设置User对象的属性到claims中
-//        claims.put("user", null);
-        //emailService.sendSimpleMail("2848762983@qq.com","测试","测试");
+    void contextLoads() throws Exception {
 
 
-        //EmailLoginUserDetailsImpl emailLoginUserDetails = new EmailLoginUserDetailsImpl(user);
+//        IflytekServiceImpl iflytekService = new IflytekServiceImpl();
+//        iflytekService.sendQuestionAndAnswer(new Question());
+        IflytekUtil iflytekUtil = new IflytekUtil();
+        System.out.println(iflytekUtil.getWebsocketUrl());
+//        String raw="{\"header\":{\"code\":0,\"message\":\"Success\",\"sid\":\"cht000bc837@dx18f5d4fad17b81a550\",\"status\":1},\"payload\":{\"choices\":{\"status\":1,\"seq\":6,\"text\":[{\"content\":\"首先，Java是一种同步的面向对象编程语言，它倾向于商业开发和团队合作，而Python则更倾向于数据分析。其次，Java版本\",\"role\":\"assistant\",\"index\":0}]}}}";
+////
+//        Gson gson =new Gson();
 //
-//        String s = JwtUtil.generateJwtToken(user);
+//        AnswerRaw answerRaw = gson.fromJson(raw, AnswerRaw.class);
 //
-//        System.out.println(s);
+//        AnswerRaw.Header header = answerRaw.getHeader();
 //
-//        User userDetailsFromToken = (User)JwtUtil.getUserFromToken(s);
-//
-//        System.out.println(userDetailsFromToken.getTypes());
+//        System.out.println(header.getCode());
 
 
-//        System.out.println(verificationService);
     }
 
 
