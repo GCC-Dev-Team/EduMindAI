@@ -13,6 +13,13 @@ spring:
       password: abC123456@
       port: 6379
 
+    mongodb:
+      host: 114.132.67.226
+      port: 27017
+      database: test
+#      username: admin
+#      password: 123456
+
   mail:
     host: smtp.163.com
     port: 465
@@ -49,4 +56,7 @@ oss:
   bucket: xiaoxin
   #  文件地址的前缀
   prefix: 114.132.67.226:9000/xiaoxin
+
+
+
 

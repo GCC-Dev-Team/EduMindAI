@@ -6,7 +6,9 @@ import edumindai.service.websocket.IflytekClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-
+/**
+ * 实现多线程类 ,run方法.然后start
+ */
 public class IflytekThread extends Thread {
 
     private Question question;

@@ -2,7 +2,7 @@ package edumindai.enums;
 
 public enum IflytekRoleEnum {
     User("user", "用户"),
-    System("system", "系统"),
+    System("system", "对话背景"),
     Assistant("assistant", "AI");
 
     private final String role;

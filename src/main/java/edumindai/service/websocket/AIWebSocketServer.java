@@ -4,28 +4,32 @@ package edumindai.service.websocket;
 import com.google.gson.Gson;
 
 import edumindai.model.entity.Answer;
+import edumindai.model.entity.IflytekRoleContent;
 import edumindai.model.entity.Question;
 import edumindai.thread.IflytekThread;
 import jakarta.websocket.*;
-import jakarta.websocket.server.PathParam;
+
 import jakarta.websocket.server.ServerEndpoint;
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
- * AI问答websocket服务端
+ * AI问答websocket服务端(舍弃,使用IflytekSocketServer)
  */
-@ServerEndpoint("/ws/test/{Token}/{topicId}")
+@ServerEndpoint("/ws/ai/iflyteks")
 @Component
 @Slf4j
 public class AIWebSocketServer {
+
     /**
      * 与某个客户端的连接会话，需要通过它来给客户端发送数据
      */
@@ -39,6 +43,8 @@ public class AIWebSocketServer {
      */
 
     private String topicId;
+
+    private List<Answer> iflytekRoleContentList;
 
     /**
      * concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
@@ -54,15 +60,29 @@ public class AIWebSocketServer {
      * 链接成功调用的方法
      */
     @OnOpen
-    public void onOpen(Session session, @PathParam(value = "Token") String token) throws IOException {
+    public void onOpen(Session session) throws IOException {
 
 
+        //获取信息,根据url
+        Map<String, List<String>> requestParameterMap = session.getRequestParameterMap();
+
+        requestParameterMap.forEach((k, v) -> {
+                    System.out.println(k + ":" + v);
+                });
+
+        //获取参数
+        System.out.println(session.getQueryString());
 
         System.out.println("session地址"+session);
+
+        //TODO 鉴权
+
         this.session = session;
         this.userId = "xiaoli";
 
         this.topicId= UUID.randomUUID().toString();
+
+
 
     }
 
@@ -82,6 +102,8 @@ public class AIWebSocketServer {
     @OnMessage
     public void onMessage(Session session,String message) {
         log.info("接收到UserID：{}的消息{}", userId, message);
+        //TODO 采取json格式,传输给我我要转化成java对象
+
         Gson gson = new Gson();
 
 
@@ -90,8 +112,9 @@ public class AIWebSocketServer {
 
         question.setTopicId(topicId);
 
+       // question.setRoleContentList(iflytekRoleContentList);
 
-        //消息上下文拼接
+        //TODO 消息上下文拼接 采取一些算法,因为发送问题需要保证8142token以下
 //        IflytekRoleContent iflytekRoleContent = new IflytekRoleContent();
 //        iflytekRoleContent.setContent("Java和python区别");
 //        iflytekRoleContent.setRole(IflytekRoleEnum.User);
@@ -102,7 +125,7 @@ public class AIWebSocketServer {
 
         //运用多线程,组装问答内容给多线程去执行
         IflytekThread iflytekThread = new IflytekThread(question);
-
+        //多线程开始
         iflytekThread.start();
 
         System.out.println("我是主线程");
@@ -122,7 +145,7 @@ public class AIWebSocketServer {
 
                 System.out.println(answers.size());
 
-                //消息保存
+                //TODO 消息保存
 
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -130,6 +153,8 @@ public class AIWebSocketServer {
         }
 
         session.getAsyncRemote().sendText("我已经收到");
+
+
 
     }
 
@@ -182,4 +207,5 @@ public class AIWebSocketServer {
         }
 
     }
+
 }

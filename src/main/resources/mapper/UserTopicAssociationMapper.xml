@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edumindai.mapper.UserTopicAssociationMapper">
+
+    <resultMap id="BaseResultMap" type="edumindai.model.entity.UserTopicAssociation">
+        <id property="id" column="id" jdbcType="OTHER"/>
+        <result property="userId" column="user_id" jdbcType="OTHER"/>
+        <result property="topicId" column="topic_id" jdbcType="OTHER"/>
+        <result property="createAt" column="create_at" jdbcType="TIMESTAMP"/>
+        <result property="updateAt" column="update_at" jdbcType="TIMESTAMP"/>
+        <result property="title" column="title" jdbcType="OTHER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,user_id,topic_id,
+        create_at,update_at,title
+    </sql>
+</mapper>
