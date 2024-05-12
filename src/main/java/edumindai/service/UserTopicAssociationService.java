@@ -1,6 +1,10 @@
 package edumindai.service;
 
 
+import edumindai.model.entity.UserTopicAssociation;
+
+import java.util.List;
+
 /**
 * @author ljz20
 * @description 针对表【user_topic_association】的数据库操作Service
@@ -9,8 +13,11 @@ package edumindai.service;
 public interface UserTopicAssociationService  {
 
     //用户创建Topic
+    boolean insertTopic(String userId, String topicId);
 
     //根据用户id查询Topic集合
+
+    List<UserTopicAssociation> findMyTopic(String userId);
 
 
 }

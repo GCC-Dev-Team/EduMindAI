@@ -4,16 +4,15 @@ package edumindai;
 import cn.hutool.crypto.asymmetric.RSA;
 import com.google.gson.Gson;
 import edumindai.enums.IflytekRoleEnum;
-import edumindai.model.entity.Answer;
-import edumindai.model.entity.AnswerMessages;
-import edumindai.model.entity.AnswerRaw;
-import edumindai.model.entity.Question;
+import edumindai.mapper.UserTopicAssociationMapper;
+import edumindai.model.entity.*;
 import edumindai.service.impl.IflytekServiceImpl;
 import edumindai.utils.IflytekUtil;
 import edumindai.utils.IflytekWebsocketServerUtil;
 import edumindai.utils.RSAUtils;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
@@ -22,9 +21,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.net.MalformedURLException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -34,6 +31,8 @@ class EduMindAiApplicationTests {
     MongoTemplate mongoTemplate;
 
 
+    @Autowired
+    UserTopicAssociationMapper userTopicAssociationMapper;
 
     @Test
     void contextLoads() throws Exception {
@@ -57,51 +56,95 @@ class EduMindAiApplicationTests {
 //        AnswerRaw.Header header = answerRaw.getHeader();
 //
 //        System.out.println(header.getCode());
-//
-//        Answer answer = new Answer();
-//
-//        answer.setStatus(0);
-//        answer.setContent("测试你好");
-//        answer.setRole(IflytekRoleEnum.Assistant);
-//
-//        answer.setTokenCount(100);
-//
-//        List<Answer> answers = new ArrayList<>();
-//
-//        answers.add(answer);
-//
-//        Answer answer2 = new Answer();
-//
-//        answer2.setStatus(1);
-//        answer2.setContent("测试你好2");
-//        answer2.setRole(IflytekRoleEnum.Assistant);
-//
-//        answer2.setTokenCount(100);
-//
-//        answers.add(answer2);
-//
-//
+////
+        Answer answer = new Answer();
+
+        answer.setStatus(0);
+        answer.setContent("测试你好");
+        answer.setRole(IflytekRoleEnum.Assistant);
+
+
+        List<Answer> answers = new ArrayList<>();
+
+        answers.add(answer);
+
+        Answer answer2 = new Answer();
+
+        answer2.setStatus(1);
+        answer2.setContent("测试你好2");
+        answer2.setRole(IflytekRoleEnum.Assistant);
+
+
+        answers.add(answer2);
+
+        //出队操作
+
+        Queue<Answer> q = new LinkedList<>();
+
+        q.add(answer);
+        q.add(answer2);
+        System.out.println(q.size());
+        //这个peek是不会出队的,poll才会从队列删除
+        Answer poll = q.poll();
+        System.out.println(poll.getContent());
+
+        System.out.println(q.size());
+        System.out.println(q.isEmpty());
+
+////
+////
 //        AnswerMessages answerMessages = new AnswerMessages();
 //
 //        answerMessages.setTopicId(UUID.randomUUID().toString());
 //
 //        answerMessages.setAnswers(answers);
 //        mongoTemplate.save(answerMessages);
+////
+////        Query query = new Query();
 //
-//        Query query = new Query();
+//        //获取信息,根据id
+//        //AnswerMessages byId = mongoTemplate.findById("70f85554-1b45-4a6c-b103-7e41e7da12bf", AnswerMessages.class);
+////
+//       // System.out.println(byId.getTopicId());
+////
+////        List<Answer> answers = byId.getAnswers();
+//
+//        List<IflytekRoleContent> roleContentList=new ArrayList<>();
+//
+//        boolean addAll = roleContentList.addAll(answers);
+//
+//        System.out.println(roleContentList.size());
+//
+//        roleContentList.removeFirst();
+//
+//        System.out.println(roleContentList.size());
+//
+//        System.out.println(roleContentList.getFirst().getContent());
 
-        //获取信息,根据id
-        AnswerMessages byId = mongoTemplate.findById("cbfd4549-b8e8-42ef-b486-b8f17a3409a9", AnswerMessages.class);
+        // System.out.println(answers.get(0));
 
-        System.out.println(byId.getTopicId());
+//        System.out.println(answers.get(1).toJson());
 
-        List<Answer> answers = byId.getAnswers();
 
-        System.out.println(answers.get(0).getContent());
-
-        System.out.println(answers.get(1).getRole());
 //        mongoTemplate.find()
 
+//        mongoTemplate
+//
+//        UserTopicAssociation userTopicAssociation = new UserTopicAssociation();
+//
+//        userTopicAssociation.setTopicId(UUID.randomUUID().toString());
+//
+//        userTopicAssociation.setId(UUID.randomUUID().toString());
+//
+//        userTopicAssociation.setTitle("小李");
+//
+//        userTopicAssociation.setUserId("6afec9c4-66ef-4dc1-94ed-99441d3484cb");
+//
+//        userTopicAssociationMapper.insertTopicByUserId(userTopicAssociation);
+
+//        List<UserTopicAssociation> myTopicByUserId = userTopicAssociationMapper.findMyTopicByUserId("6afec9c4-66ef-4dc1-94ed-99441d3484cb");
+//
+//        System.out.println(myTopicByUserId.get(0).getUserId());
 
     }
 

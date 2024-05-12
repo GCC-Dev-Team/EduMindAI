@@ -106,12 +106,16 @@ public class IflytekClient {
             messageQueue.add(answer);
 
         }
+        //响应结束,也就是最后一句,但是内容和之前状态1的最后一句一样
         if (answerRaw.getHeader().getStatus() == 2) {
 
             Answer answer = new Answer();
             answer.setRole(IflytekRoleEnum.Assistant);
             answer.setContent(null);
             answer.setStatus(2);
+
+            //设置这次消耗的总共token值
+            answer.setTokenSumCount(answerRaw.getPayload().getUsage().getText().getTotal_tokens());
 
             messageQueue.add(answer);
 

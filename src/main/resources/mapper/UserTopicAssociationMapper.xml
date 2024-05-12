@@ -12,10 +12,50 @@
         <result property="updateAt" column="update_at" jdbcType="TIMESTAMP"/>
         <result property="title" column="title" jdbcType="OTHER"/>
     </resultMap>
+    <select id="findMyTopicByUserId" resultMap="BaseResultMap">
+        select id,user_id,topic_id,create_at,update_at,title
+        from user_topic_association
+        <where>
+            user_id = #{userId}::uuid
+        </where>
+    </select>
+
+    <insert id="insertTopicByUserId" parameterType="userTopicAssociation">
+        insert into user_topic_association
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="topicId != null">
+                topic_id,
+            </if>
+            <if test="title != null">
+                title
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id}::uuid,
+            </if>
+            <if test="userId != null">
+                #{userId}::uuid,
+            </if>
+            <if test="topicId != null">
+                #{topicId}::uuid,
+            </if>
+            <if test="title != null">
+                #{title},
+            </if>
+        </trim>
+    </insert>
 
     <sql id="Base_Column_List">
         id
         ,user_id,topic_id,
         create_at,update_at,title
     </sql>
+
 </mapper>

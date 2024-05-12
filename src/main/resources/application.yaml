@@ -16,9 +16,9 @@ spring:
     mongodb:
       host: 114.132.67.226
       port: 27017
-      database: test
-#      username: admin
-#      password: 123456
+      database: eduMindAI
+      username: xiaolirw
+      password: abC123456@
 
   mail:
     host: smtp.163.com

@@ -34,6 +34,10 @@ public class AnswerRaw {
     @Data
     public class Payload {
         Choices choices;
+
+        //注意这个要在最后才有信息的
+        Usage usage;
+
     }
 
     @Data
@@ -46,4 +50,20 @@ public class AnswerRaw {
         String role;
         String content;
     }
+
+    @Data
+    public class Usage{
+
+        UsageText text;
+
+    }
+
+    @Data
+    public class UsageText{
+
+        int prompt_tokens;
+        int completion_tokens;
+        int total_tokens;
+    }
+
 }
