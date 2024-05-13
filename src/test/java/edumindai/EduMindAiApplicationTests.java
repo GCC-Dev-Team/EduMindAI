@@ -1,41 +1,45 @@
 package edumindai;
 
 
-import cn.hutool.crypto.asymmetric.RSA;
-import com.google.gson.Gson;
-import edumindai.enums.IflytekRoleEnum;
-import edumindai.mapper.UserTopicAssociationMapper;
-import edumindai.model.entity.*;
-import edumindai.service.impl.IflytekServiceImpl;
-import edumindai.utils.IflytekUtil;
-import edumindai.utils.IflytekWebsocketServerUtil;
-import edumindai.utils.RSAUtils;
-import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import java.net.MalformedURLException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.util.*;
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class EduMindAiApplicationTests {
 
-    @Resource
-    MongoTemplate mongoTemplate;
-
-
-    @Autowired
-    UserTopicAssociationMapper userTopicAssociationMapper;
+//    @Resource
+//    MongoTemplate mongoTemplate;
+//
+//
+//    @Autowired
+//    UserTopicAssociationMapper userTopicAssociationMapper;
 
     @Test
     void contextLoads() throws Exception {
+
+//        AnswerMessages answerMessages = mongoTemplate.findById("5afb00b1-c849-44ea-b313-69d8f96d4714", AnswerMessages.class);
+//
+//        mongoTemplate.remove(answerMessages);
+//
+//        System.out.println(answerMessages.getTopicId());
+//        System.out.println(answerMessages.getAnswers().get(0).getContent());
+//        System.out.println(mongoTemplate.findById("5afb00b1-c849-44ea-b313-69d8f96d4714", AnswerMessages.class));
+
+
+        //注入需要的bean对象
+        // 获取 Spring 上下文
+
+        MongoTemplate bean = (MongoTemplate) SpringContextUtil.getBean(MongoTemplate.class);
+
+        System.out.println(bean);
+
+        // 获取 bean 对象
+//    MyService myService = applicationContext.getBean("myService", MyService.class);
+        //mogodb负责消息记录的保存
+
+
 
 //        String data="Authorization=Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzZyIsInVzZXIiOnsiaWQiOiI2YWZlYzljNC02NmVmLTRkYzEtOTRlZC05OTQ0MWQzNDg0Y2IiLCJuaWNrbmFtZSI6bnVsbCwiYXZhdGFyIjpudWxsLCJ0eXBlcyI6Ik9SRElOQVJZIiwic3RhdHVzIjoiTk9STUFMIiwiZW1haWwiOiJsanpjb21lb25AZ21haWwuY29tIiwicGhvbmUiOm51bGwsImNyZWF0ZUF0IjoxNzE0NjM0ODQyNDkyLCJ1cGRhdGVBdCI6MTcxNDYzNDg0MjQ5MiwicGFzc3dvcmQiOiIkMmEkMTAkemg2aEJtZDZHM1dnTVpMOE5EUjZ1LnBEYmgzTUtvNDFISFpZMEhRR0Ivem5LMkprSklLWmEiLCJyZWdpc3RlclBhdHRlcm4iOiJFbWFpbCJ9LCJpYXQiOjE3MTQ2NDM2Nzh9.ylwe2Q1Fvnd05Ax5WmfaFBaFfliE4nmKk0muG3QG_Fw&topicId=&userId=";
 //
@@ -57,39 +61,39 @@ class EduMindAiApplicationTests {
 //
 //        System.out.println(header.getCode());
 ////
-        Answer answer = new Answer();
-
-        answer.setStatus(0);
-        answer.setContent("测试你好");
-        answer.setRole(IflytekRoleEnum.Assistant);
-
-
-        List<Answer> answers = new ArrayList<>();
-
-        answers.add(answer);
-
-        Answer answer2 = new Answer();
-
-        answer2.setStatus(1);
-        answer2.setContent("测试你好2");
-        answer2.setRole(IflytekRoleEnum.Assistant);
-
-
-        answers.add(answer2);
-
-        //出队操作
-
-        Queue<Answer> q = new LinkedList<>();
-
-        q.add(answer);
-        q.add(answer2);
-        System.out.println(q.size());
-        //这个peek是不会出队的,poll才会从队列删除
-        Answer poll = q.poll();
-        System.out.println(poll.getContent());
-
-        System.out.println(q.size());
-        System.out.println(q.isEmpty());
+//        Answer answer = new Answer();
+//
+//        answer.setStatus(0);
+//        answer.setContent("测试你好");
+//        answer.setRole(IflytekRoleEnum.Assistant);
+//
+//
+//        List<Answer> answers = new ArrayList<>();
+//
+//        answers.add(answer);
+//
+//        Answer answer2 = new Answer();
+//
+//        answer2.setStatus(1);
+//        answer2.setContent("测试你好2");
+//        answer2.setRole(IflytekRoleEnum.Assistant);
+//
+//
+//        answers.add(answer2);
+//
+//        //出队操作
+//
+//        Queue<Answer> q = new LinkedList<>();
+//
+//        q.add(answer);
+//        q.add(answer2);
+//        System.out.println(q.size());
+//        //这个peek是不会出队的,poll才会从队列删除
+//        Answer poll = q.poll();
+//        System.out.println(poll.getContent());
+//
+//        System.out.println(q.size());
+//        System.out.println(q.isEmpty());
 
 ////
 ////

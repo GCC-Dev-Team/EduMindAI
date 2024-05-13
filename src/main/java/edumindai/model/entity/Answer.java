@@ -1,8 +1,11 @@
 package edumindai.model.entity;
 
+import edumindai.enums.IflytekRoleEnum;
+import jakarta.persistence.DiscriminatorValue;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * 大语言模型回答内容转化对象(返回给用户wss的内容)
@@ -13,7 +16,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Answer extends IflytekRoleContent{
+@Document
+public class Answer extends IflytekRoleContent {
 
     /**
      * 记录该消息是否为最后一条(0 不是最后一条,1是最后一条)主要是wss讯飞客户端流式使用

@@ -19,5 +19,9 @@ public interface UserTopicAssociationService  {
 
     List<UserTopicAssociation> findMyTopic(String userId);
 
+    boolean deleteOneByTopicId(String topicId);
+
+    boolean checkUserIdAndTopicId(String userId,String topicId);
+
 
 }

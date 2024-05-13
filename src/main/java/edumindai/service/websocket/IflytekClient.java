@@ -103,7 +103,7 @@ public class IflytekClient {
             answer.setContent(temp.getContent());
             answer.setStatus(0);
 
-            messageQueue.add(answer);
+            this.messageQueue.add(answer);
 
         }
         //响应结束,也就是最后一句,但是内容和之前状态1的最后一句一样
@@ -117,7 +117,7 @@ public class IflytekClient {
             //设置这次消耗的总共token值
             answer.setTokenSumCount(answerRaw.getPayload().getUsage().getText().getTotal_tokens());
 
-            messageQueue.add(answer);
+            this.messageQueue.add(answer);
 
             // 可以关闭连接，释放资源
             isClose = true;

@@ -54,6 +54,37 @@ public class UserTopicAssociationServiceImpl implements UserTopicAssociationServ
         return userTopicAssociationMapper.findMyTopicByUserId(userId);
 
     }
+
+    @Override
+    public boolean deleteOneByTopicId(String topicId) {
+
+        return userTopicAssociationMapper.deleteOneByTopicId(topicId);
+    }
+
+    /**
+     * 判断时候获得了对象
+     * @param userId
+     * @param topicId
+     * @return
+     */
+    @Override
+    public boolean checkUserIdAndTopicId(String userId, String topicId) {
+
+        try {
+
+            UserTopicAssociation myTopicByUserIdAndTopicId = userTopicAssociationMapper.findMyTopicByUserIdAndTopicId(userId, topicId);
+
+            if (myTopicByUserIdAndTopicId != null){
+
+                return true;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+
+        }
+
+        return false;
+    }
 }
 
 

@@ -1,7 +1,9 @@
 package edumindai.model.entity;
 
 import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.util.List;
@@ -17,5 +19,6 @@ public class AnswerMessages {
     /**
      * 聊天记录(跟AI的,同一个topicId的)
      */
+    @Field("answers")
     List<Answer> answers;
 }

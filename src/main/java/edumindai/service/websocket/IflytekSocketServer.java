@@ -25,8 +25,12 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
-@Component
+/**
+ * 重大的bug,需要修复
+ */
 public class IflytekSocketServer extends TextWebSocketHandler {
+
+    static int count = 0;
 
     //注入需要的bean对象
     //mogodb负责消息记录的保存
@@ -80,7 +84,7 @@ public class IflytekSocketServer extends TextWebSocketHandler {
 
         this.session = session;
 
-        //topicId
+        //topicId获取
         String parseTopicId = IflytekWebsocketServerUtil.getTopicId(session.getUri().getQuery());
 
 
@@ -90,21 +94,26 @@ public class IflytekSocketServer extends TextWebSocketHandler {
             //生成一个topicId topicId保存当前对象
             this.topicId = UUID.randomUUID().toString();
 
-            //保存到数据库
-            userTopicAssociationService.insertTopic(this.userId, this.topicId);
-
             this.answers = new ArrayList<>();
 
         } else {
+
+
+            boolean checked = checkUserIdAndTopicId(this.userId, this.topicId);
+
+            if (!checked) {
+                throw new ServiceException("用户id和topicId不匹配", 1500);
+            }
+
             //topicId不为null,设置topicId
             this.topicId = parseTopicId;
 
+            //确保userId和TopicID是存在的并且mongodb有这个数据
+
             //聊天记录获取
-
-
             try {
 
-                AnswerMessages answerMessages = mongoTemplate.findById("cbfd4549-b8e8-42ef-b486-b8f17a3409a9", AnswerMessages.class);
+                AnswerMessages answerMessages = mongoTemplate.findById(this.topicId, AnswerMessages.class);
 
                 assert answerMessages != null;
                 this.answers = answerMessages.getAnswers();
@@ -114,10 +123,6 @@ public class IflytekSocketServer extends TextWebSocketHandler {
 
                 throw new ServiceException("聊天记录获取失败", 1500);
             }
-
-
-            //之前的聊天记录发送(JSON格式)
-            Gson gson = new Gson();
 
             for (Answer answer : this.answers) {
 
@@ -130,6 +135,9 @@ public class IflytekSocketServer extends TextWebSocketHandler {
 
         webSockets.add(this);
         sessionPool.put(this.topicId, session);
+
+        System.out.println("我是第"+count+"个客户端连接成功,topicId为"+this.topicId);
+
     }
 
     /**
@@ -162,7 +170,7 @@ public class IflytekSocketServer extends TextWebSocketHandler {
 
 
         Question question = new Question();
-        question.setTopicId(topicId);
+        question.setTopicId(this.topicId);
         question.setRoleContentList(roleContentHistoryList);
 
 
@@ -173,6 +181,8 @@ public class IflytekSocketServer extends TextWebSocketHandler {
 
         //使用string拼接,因为是流式,所以到时候拼接容易点(临时变量的)
         StringBuilder respondContentBuilder = new StringBuilder();
+
+        System.out.println("我的topicID在while循环外面也就是提问"+this.topicId);
 
 
         //运用多线程,组装问答内容给多线程去执行
@@ -194,7 +204,10 @@ public class IflytekSocketServer extends TextWebSocketHandler {
                 Thread.sleep(300);
 
                 //这个answers是队列的,是讯飞客户端那边的
-                Queue<Answer> answers = IflytekClient.messageMap.get(topicId);
+                Queue<Answer> answers = IflytekClient.messageMap.get(this.topicId);
+
+                System.out.println("我的topicID在while循环中"+this.topicId);
+
 
                 //如果拿到队列为null,再次等待
                 if (answers == null) {
@@ -262,8 +275,15 @@ public class IflytekSocketServer extends TextWebSocketHandler {
         answerMessages.setAnswers(answers);
         answerMessages.setTopicId(this.topicId);
 
-        mongoTemplate.save(answerMessages);
+        //说明有记录保存
+        if (answers.size()>0){
 
+            mongoTemplate.save(answerMessages);
+
+            //保存到数据库(考虑一致性,所以要在关闭的时候选择保存)
+            userTopicAssociationService.insertTopic(this.userId, this.topicId);
+
+        }
     }
 
     void sendMessageToUser(String message) {
@@ -271,7 +291,7 @@ public class IflytekSocketServer extends TextWebSocketHandler {
         TextMessage textMessage = new TextMessage(message);
 
         try {
-            session.sendMessage(textMessage);
+            this.session.sendMessage(textMessage);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -316,6 +336,17 @@ public class IflytekSocketServer extends TextWebSocketHandler {
         }
 
         return roleContentHistoryList;
+    }
+
+    /**
+     * 判断userId和TopicId是否一致
+     * @param userId
+     * @param topicId
+     * @return
+     */
+    private boolean checkUserIdAndTopicId(String userId,String topicId){
+
+        return userTopicAssociationService.checkUserIdAndTopicId(userId,topicId);
     }
 
 }

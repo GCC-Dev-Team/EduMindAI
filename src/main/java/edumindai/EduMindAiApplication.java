@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @MapperScan("edumindai.mapper")
+
 public class EduMindAiApplication {
 
     public static void main(String[] args) {

@@ -52,10 +52,25 @@
         </trim>
     </insert>
 
+    <delete id="deleteOneByTopicId">
+        delete  from user_topic_association where topic_id = #{topicId}::uuid
+    </delete>
+
+    <select id="findMyTopicByUserIdAndTopicId" resultMap="BaseResultMap">
+        select id,user_id,topic_id,create_at,update_at,title
+        from user_topic_association
+        <where>
+            user_id = #{userId}::uuid
+            and topic_id = #{topicId}::uuid
+        </where>
+    </select>
+
     <sql id="Base_Column_List">
         id
         ,user_id,topic_id,
         create_at,update_at,title
     </sql>
+
+
 
 </mapper>
