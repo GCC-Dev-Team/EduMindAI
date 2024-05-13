@@ -2,10 +2,12 @@ package edumindai.config;
 
 
 import edumindai.filter.WebSocketAuthInterceptor;
+import edumindai.service.UserTopicAssociationService;
 import edumindai.service.websocket.IflytekSocketServer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
@@ -17,6 +19,10 @@ public class WebSocketEndpointConfig implements WebSocketConfigurer {
 
     @Autowired
     WebSocketAuthInterceptor webSocketAuthInterceptor;
+    @Autowired
+    MongoTemplate mongoTemplate;
+    @Autowired
+    UserTopicAssociationService userTopicAssociationService;
     /**
      * 注入ServerEndpointExporter，
      * 这个bean会自动注册使用了@ServerEndpoint注解声明的WebSocket Endpoint
@@ -33,7 +39,7 @@ public class WebSocketEndpointConfig implements WebSocketConfigurer {
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 
-        registry.addHandler(new IflytekSocketServer(), "/ws/ai/iflytek")
+        registry.addHandler(new IflytekSocketServer(userTopicAssociationService,mongoTemplate), "/ws/ai/iflytek")
                 .addInterceptors(webSocketAuthInterceptor)
                 .setAllowedOrigins("*");
     }

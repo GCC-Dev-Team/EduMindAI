@@ -30,12 +30,16 @@ public class IflytekSocketServer extends TextWebSocketHandler {
 
     //注入需要的bean对象
     //mogodb负责消息记录的保存
-    @Autowired
+
     private MongoTemplate mongoTemplate;
     //负责topic的保存
-    @Autowired
+
     private UserTopicAssociationService userTopicAssociationService;
 
+    public IflytekSocketServer(UserTopicAssociationService userTopicAssociationService,MongoTemplate mongoTemplate) {
+        this.mongoTemplate=mongoTemplate;
+        this.userTopicAssociationService=userTopicAssociationService;
+    }
     /**
      * 用户ID
      */
@@ -182,7 +186,7 @@ public class IflytekSocketServer extends TextWebSocketHandler {
 
         Thread.sleep(300);
 
-        //TODO 能够退出循环的条件1.队列为null,2.子线程结束 !iflytekThread.isAlive()表示子程序结束(true是结束)
+        //能够退出循环的条件1.队列为null,2.子线程结束 !iflytekThread.isAlive()表示子程序结束(true是结束)
         while (over) {
 
             try {
@@ -198,6 +202,11 @@ public class IflytekSocketServer extends TextWebSocketHandler {
                 }
                 //poll 出队操作,获取信息
                 Answer poll = answers.poll();
+
+                //TODO 优化,这个有可能会丢失数据
+                if (poll == null){
+                    continue;
+                }
 
                 //发送给用户(无论是不是最后一条信息都是发送给用户,因为是json格式)
                 sendMessageToUser(poll.toJson().toString());
