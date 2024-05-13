@@ -21,18 +21,45 @@ import java.util.*;
 /**
  * 讯飞接口工具类
  */
-//@Component
+@Component
 public class IflytekUtil {
 
 
-    private  String hostUrl = "https://spark-api.xf-yun.com/v3.1/chat";
+//    private  String hostUrl = "https://spark-api.xf-yun.com/v3.1/chat";
+//
+//    private  String appid = "f52d143b";
+//
+//    private  String apiSecret = "YmUwY2IzMTkzMzBhYmRjYjM2ZThiMDIx";
+//
+//    private  String apiKey = "0eed4b6468e4c5fb222b23ed6de3673e";
 
-    private  String appid = "f52d143b";
+    private static String hostUrl;
 
-    private  String apiSecret = "YmUwY2IzMTkzMzBhYmRjYjM2ZThiMDIx";
+    private static String appid;
 
-    private  String apiKey = "0eed4b6468e4c5fb222b23ed6de3673e";
+    private static String apiSecret;
 
+    private static String apiKey;
+
+    private static String domain;
+
+    /**
+     * 控制反转:值得学习
+     * @param iflytekConfig
+     */
+    @Autowired
+    public void setConfig(IflytekConfig iflytekConfig) {
+
+        IflytekUtil.hostUrl = iflytekConfig.getHostUrl();
+
+        IflytekUtil.apiSecret = iflytekConfig.getApiSecret();
+
+        IflytekUtil.apiKey = iflytekConfig.getApiKey();
+
+        IflytekUtil.appid = iflytekConfig.getAppid();
+
+        IflytekUtil.domain = iflytekConfig.getDomain();
+    }
 
     /**
      * 获取websocket连接地址
@@ -79,7 +106,7 @@ public class IflytekUtil {
 
 
         // 拼接
-        String authorization = String.format("api_key=\"%s\", algorithm=\"%s\", headers=\"%s\", signature=\"%s\"",apiKey, "hmac-sha256", "host date request-line", sha);
+        String authorization = String.format("api_key=\"%s\", algorithm=\"%s\", headers=\"%s\", signature=\"%s\"", apiKey, "hmac-sha256", "host date request-line", sha);
         // 拼接地址
         HttpUrl httpUrl = Objects.requireNonNull(HttpUrl.parse("https://" + url.getHost() + url.getPath())).newBuilder().
 
@@ -130,7 +157,7 @@ public class IflytekUtil {
 
         JSONObject parameter = new JSONObject(); // parameter参数
         JSONObject chat = new JSONObject();
-        chat.put("domain", "generalv3");
+        chat.put("domain", domain);
         chat.put("temperature", 0.5);
         chat.put("max_tokens", 8192);
         parameter.put("chat", chat);
@@ -150,7 +177,7 @@ public class IflytekUtil {
 
         JSONObject parameter = new JSONObject(); // parameter参数
         JSONObject chat = new JSONObject();
-        chat.put("domain", "generalv3");
+        chat.put("domain", domain);
         chat.put("temperature", temperature);
         chat.put("max_tokens", maxTokens);
         parameter.put("chat", chat);

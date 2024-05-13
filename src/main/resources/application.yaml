@@ -45,6 +45,7 @@ iflytek:
   apiKey: 0eed4b6468e4c5fb222b23ed6de3673e
   apiSecret: YmUwY2IzMTkzMzBhYmRjYjM2ZThiMDIx
   appid: f52d143b
+  domain: generalv3
 
 #minio的
 oss:

@@ -26,5 +26,8 @@ public class IflytekConfig {
     @Value("${iflytek.apiKey}")
     private  String apiKey = "0eed4b6468e4c5fb222b23ed6de367";
 
+    @Value("${iflytek.domain}")
+    private String domain;
+
 
 }
