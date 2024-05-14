@@ -142,9 +142,11 @@ public class AIWebSocketServer {
 
             for (Answer answer : this.answers) {
 
+                //不能使用session.getAsyncRemote().sendText(message);因为一个是异步一个是同步
                 //之前的信息发送给客户端
-                sendMessageToUser(answer.toJson().toString());
+               // sendMessageToUser(answer.toJson().toString());
 
+                session.getBasicRemote().sendText(answer.toJson().toString());
             }
 
         }
@@ -355,7 +357,10 @@ public class AIWebSocketServer {
      */
     void sendMessageToUser(String message) {
 
-        this.session.getAsyncRemote().sendText(message);
+        synchronized(session) {
+            this.session.getAsyncRemote().sendText(message);
+        }
+
     }
 
     /**

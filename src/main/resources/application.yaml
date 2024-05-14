@@ -6,6 +6,7 @@ spring:
   profiles:
     active: dev
 
+
   data:
     redis:
       host: 114.132.67.226
@@ -39,13 +40,21 @@ mybatis:
   ##不设置包,找不到那个user类,传入参数的选择,就是insert标签的parameterType
   type-aliases-package: edumindai.model.entity
 
-#讯飞api配置
+##讯飞api配置
+#iflytek:
+#  hostUrl: https://spark-api.xf-yun.com/v3.1/chat
+#  apiKey: 0eed4b6468e4c5fb222b23ed6de3673e
+#  apiSecret: YmUwY2IzMTkzMzBhYmRjYjM2ZThiMDIx
+#  appid: f52d143b
+#  domain: generalv3
+
+#讯飞api配置3.5
 iflytek:
-  hostUrl: https://spark-api.xf-yun.com/v3.1/chat
+  hostUrl: https://spark-api.xf-yun.com/v3.5/chat
   apiKey: 0eed4b6468e4c5fb222b23ed6de3673e
   apiSecret: YmUwY2IzMTkzMzBhYmRjYjM2ZThiMDIx
   appid: f52d143b
-  domain: generalv3
+  domain: generalv3.5
 
 #minio的
 oss:
