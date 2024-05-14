@@ -11,11 +11,14 @@ import edumindai.mapper.UserMapper;
 import edumindai.model.dto.LoginRequest;
 import edumindai.model.dto.RegisterRequest;
 import edumindai.model.entity.User;
+import edumindai.model.entity.UserTopicAssociation;
 import edumindai.model.vo.LoginVO;
 import edumindai.model.vo.RegisterVO;
+import edumindai.model.vo.TopicsVO;
 import edumindai.service.LoginContext;
 import edumindai.service.RegisterContext;
 import edumindai.service.UserService;
+import edumindai.service.UserTopicAssociationService;
 import edumindai.utils.ContextHolder;
 import edumindai.utils.JwtUtil;
 import jakarta.annotation.Resource;
@@ -29,6 +32,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -48,6 +53,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     RegisterContext registerContext;
+
+    @Autowired
+    UserTopicAssociationService userTopicAssociationService;
 
     @Override
     public Response<LoginVO> login(LoginRequest loginRequest) {
@@ -185,6 +193,30 @@ public class UserServiceImpl implements UserService {
         user.setTypes(UserTypeEnum.ORDINARY);
 
         return user;
+    }
+
+    @Override
+    public Response getTopics() {
+
+        String userId = ContextHolder.getUser().getId();
+
+        List<UserTopicAssociation> myUserTopicAssociation = userTopicAssociationService.findMyTopic(userId);
+
+        TopicsVO topicsVO = new TopicsVO();
+        topicsVO.setUserId(userId);
+
+        ArrayList<String> topics = new ArrayList<>();
+
+        topicsVO.setList(topics);
+
+        for (UserTopicAssociation userTopicAssociation : myUserTopicAssociation){
+
+            topics.add(userTopicAssociation.getTopicId());
+
+        }
+
+
+        return new Response(1,"查询成功",topicsVO);
     }
 }
 

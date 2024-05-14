@@ -7,10 +7,7 @@ import edumindai.model.vo.LoginVO;
 import edumindai.model.vo.RegisterVO;
 import edumindai.service.UserService;
 import jakarta.annotation.Resource;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -25,6 +22,11 @@ public class UserController {
     @PostMapping("/register")
     public Response<RegisterVO> register(@RequestBody RegisterRequest registerRequest) {
         return userService.register(registerRequest);
+    }
+
+    @GetMapping("/topics")
+    public Response getTopics() {
+        return userService.getTopics();
     }
 
 

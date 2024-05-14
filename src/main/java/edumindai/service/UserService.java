@@ -41,4 +41,11 @@ public interface UserService {
      * @return User 用户
      */
     User getUserByEmail(String email);
+
+
+    /**
+     * 获取我的topicId
+     * @return
+     */
+    Response getTopics();
 }

@@ -39,7 +39,7 @@ public class WebSocketEndpointConfig implements WebSocketConfigurer {
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
 
-        registry.addHandler(new IflytekSocketServer(userTopicAssociationService,mongoTemplate), "/ws/ai/iflytek")
+        registry.addHandler(new IflytekSocketServer(userTopicAssociationService,mongoTemplate), "/ws/ai/iflytek/delete")
                 .addInterceptors(webSocketAuthInterceptor)
                 .setAllowedOrigins("*");
     }
