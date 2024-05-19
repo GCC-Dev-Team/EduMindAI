@@ -1,30 +1,38 @@
 server:
-  port: 8000
+  ##开启HTTPS
+  port: 443
+  ssl:
+    ## SSL证书路径
+    key-store: classpath:prod.pfx
+    ##SSL证书密码
+    key-store-password: wkhp58w00b1
+    key-store-type: PKCS12
+
 spring:
   datasource:
-    url: jdbc:postgresql://114.132.67.226:5432/edumindai
-    username: root
-    password: abC123456@
+    url: ##psql地址
+    username: ##账号
+    password: ##密码
   data:
     redis:
-      host: 114.132.67.226
+      host: ##地址
       database: 5
-      password: abC123456@
+      password: ##密码
       port: 6379
 
     mongodb:
-      host: 114.132.67.226
+      host: ##地址
       port: 27017
-      database: eduMindAI
-      username: xiaolirw
-      password: abC123456@
+      database: ##数据库
+      username: ##账号
+      password: ##密码
 
   mail:
-    host: smtp.163.com
+    host: ##smtp.163.com
     port: 465
-    username: ljz2020comeon@163.com
-    password: QSWTCTJFMQRQEIIR
-    from: ljz2020comeon@163.com
+    username: ##邮箱用户名
+    password: ###密钥
+    from: ##邮箱地址
     #    因为25端口被封闭,所以只能使用smtps,465端口进行发送邮件
     protocol: smtps
 
@@ -48,11 +56,11 @@ mybatis:
 
 #讯飞api配置3.5
 iflytek:
-  hostUrl: https://spark-api.xf-yun.com/v3.5/chat
-  apiKey: 0eed4b6468e4c5fb222b23ed6de3673e
-  apiSecret: YmUwY2IzMTkzMzBhYmRjYjM2ZThiMDIx
-  appid: f52d143b
-  domain: generalv3.5
+  hostUrl: ##讯飞大模型请求地址
+  apiKey: ##讯飞请求的密钥
+  apiSecret: ##讯飞请求的密钥
+  appid: ##讯飞请求的appid
+  domain: ##请求模型
 
 #minio的
 oss:

@@ -1,0 +1,608 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "AI+教育",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "用户"
+    },
+    {
+      "name": "用户/登陆注册"
+    }
+  ],
+  "paths": {
+    "/user/register": {
+      "post": {
+        "summary": "注册",
+        "x-apifox-folder": "用户/登陆注册",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "### token有效期7天 token请求格式:Authorization: Bearer <token>token",
+        "tags": [
+          "用户/登陆注册"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzZyIsInVzZXIiOnsiaWQiOiI2YWZlYzljNC02NmVmLTRkYzEtOTRlZC05OTQ0MWQzNDg0Y2IiLCJuaWNrbmFtZSI6bnVsbCwiYXZhdGFyIjpudWxsLCJ0eXBlcyI6Ik9SRElOQVJZIiwic3RhdHVzIjoiTk9STUFMIiwiZW1haWwiOiJsanpjb21lb25AZ21haWwuY29tIiwicGhvbmUiOm51bGwsImNyZWF0ZUF0IjoxNzE0NjM0ODQyNDkyLCJ1cGRhdGVBdCI6MTcxNDYzNDg0MjQ5MiwicGFzc3dvcmQiOiIkMmEkMTAkemg2aEJtZDZHM1dnTVpMOE5EUjZ1LnBEYmgzTUtvNDFISFpZMEhRR0Ivem5LMkprSklLWmEiLCJyZWdpc3RlclBhdHRlcm4iOiJFbWFpbCJ9LCJpYXQiOjE3MTQ2NDM2Nzh9.ylwe2Q1Fvnd05Ax5WmfaFBaFfliE4nmKk0muG3QG_Fw",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterVO"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "data": {
+                        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                      },
+                      "code": 1,
+                      "msg": "注册成功"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/4399114/apis/api-169752167-run",
+        "security": []
+      }
+    },
+    "/user/login": {
+      "post": {
+        "summary": "登陆",
+        "x-apifox-folder": "用户/登陆注册",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "用户/登陆注册"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzZyIsInVzZXIiOnsiaWQiOiI2YWZlYzljNC02NmVmLTRkYzEtOTRlZC05OTQ0MWQzNDg0Y2IiLCJuaWNrbmFtZSI6bnVsbCwiYXZhdGFyIjpudWxsLCJ0eXBlcyI6Ik9SRElOQVJZIiwic3RhdHVzIjoiTk9STUFMIiwiZW1haWwiOiJsanpjb21lb25AZ21haWwuY29tIiwicGhvbmUiOm51bGwsImNyZWF0ZUF0IjoxNzE0NjM0ODQyNDkyLCJ1cGRhdGVBdCI6MTcxNDYzNDg0MjQ5MiwicGFzc3dvcmQiOiIkMmEkMTAkemg2aEJtZDZHM1dnTVpMOE5EUjZ1LnBEYmgzTUtvNDFISFpZMEhRR0Ivem5LMkprSklLWmEiLCJyZWdpc3RlclBhdHRlcm4iOiJFbWFpbCJ9LCJpYXQiOjE3MTQ2NDM2Nzh9.ylwe2Q1Fvnd05Ax5WmfaFBaFfliE4nmKk0muG3QG_Fw",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginVO"
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "data": {
+                        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+                      },
+                      "code": 1,
+                      "msg": "登陆成功"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/4399114/apis/api-169753900-run",
+        "security": []
+      }
+    },
+    "/verificationCode": {
+      "get": {
+        "summary": "获取验证码",
+        "x-apifox-folder": "用户/登陆注册",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "### 防止被爬虫以及各种不法分子刷验证码,所以采取验证码每次间隔时间60s \n### 一小时最多6条验证码",
+        "tags": [
+          "用户/登陆注册"
+        ],
+        "parameters": [
+          {
+            "name": "phoneNumber",
+            "in": "query",
+            "description": "可选",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzZyIsInVzZXIiOnsiaWQiOiI2YWZlYzljNC02NmVmLTRkYzEtOTRlZC05OTQ0MWQzNDg0Y2IiLCJuaWNrbmFtZSI6bnVsbCwiYXZhdGFyIjpudWxsLCJ0eXBlcyI6Ik9SRElOQVJZIiwic3RhdHVzIjoiTk9STUFMIiwiZW1haWwiOiJsanpjb21lb25AZ21haWwuY29tIiwicGhvbmUiOm51bGwsImNyZWF0ZUF0IjoxNzE0NjM0ODQyNDkyLCJ1cGRhdGVBdCI6MTcxNDYzNDg0MjQ5MiwicGFzc3dvcmQiOiIkMmEkMTAkemg2aEJtZDZHM1dnTVpMOE5EUjZ1LnBEYmgzTUtvNDFISFpZMEhRR0Ivem5LMkprSklLWmEiLCJyZWdpc3RlclBhdHRlcm4iOiJFbWFpbCJ9LCJpYXQiOjE3MTQ2NDM2Nzh9.ylwe2Q1Fvnd05Ax5WmfaFBaFfliE4nmKk0muG3QG_Fw",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerificationCodeVO"
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/4399114/apis/api-169754052-run",
+        "security": []
+      }
+    },
+    "/test": {
+      "get": {
+        "summary": "测试业务接口(需要登陆)",
+        "x-apifox-folder": "用户",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "用户"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzZyIsInVzZXIiOnsiaWQiOiI2YWZlYzljNC02NmVmLTRkYzEtOTRlZC05OTQ0MWQzNDg0Y2IiLCJuaWNrbmFtZSI6bnVsbCwiYXZhdGFyIjpudWxsLCJ0eXBlcyI6Ik9SRElOQVJZIiwic3RhdHVzIjoiTk9STUFMIiwiZW1haWwiOiJsanpjb21lb25AZ21haWwuY29tIiwicGhvbmUiOm51bGwsImNyZWF0ZUF0IjoxNzE0NjM0ODQyNDkyLCJ1cGRhdGVBdCI6MTcxNDYzNDg0MjQ5MiwicGFzc3dvcmQiOiIkMmEkMTAkemg2aEJtZDZHM1dnTVpMOE5EUjZ1LnBEYmgzTUtvNDFISFpZMEhRR0Ivem5LMkprSklLWmEiLCJyZWdpc3RlclBhdHRlcm4iOiJFbWFpbCJ9LCJpYXQiOjE3MTQ2NDM2Nzh9.ylwe2Q1Fvnd05Ax5WmfaFBaFfliE4nmKk0muG3QG_Fw",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {},
+                  "x-apifox-ignore-properties": [],
+                  "x-apifox-orders": []
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/4399114/apis/api-170566166-run",
+        "security": []
+      }
+    },
+    "/user/topics": {
+      "get": {
+        "summary": "获取我的topics",
+        "x-apifox-folder": "用户/登陆注册",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "用户/登陆注册"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "",
+            "example": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJzZyIsInVzZXIiOnsiaWQiOiI2YWZlYzljNC02NmVmLTRkYzEtOTRlZC05OTQ0MWQzNDg0Y2IiLCJuaWNrbmFtZSI6bnVsbCwiYXZhdGFyIjpudWxsLCJ0eXBlcyI6Ik9SRElOQVJZIiwic3RhdHVzIjoiTk9STUFMIiwiZW1haWwiOiJsanpjb21lb25AZ21haWwuY29tIiwicGhvbmUiOm51bGwsImNyZWF0ZUF0IjoxNzE0NjM0ODQyNDkyLCJ1cGRhdGVBdCI6MTcxNDYzNDg0MjQ5MiwicGFzc3dvcmQiOiIkMmEkMTAkemg2aEJtZDZHM1dnTVpMOE5EUjZ1LnBEYmgzTUtvNDFISFpZMEhRR0Ivem5LMkprSklLWmEiLCJyZWdpc3RlclBhdHRlcm4iOiJFbWFpbCJ9LCJpYXQiOjE3MTQ2NDM2Nzh9.ylwe2Q1Fvnd05Ax5WmfaFBaFfliE4nmKk0muG3QG_Fw",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "integer"
+                    },
+                    "msg": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "userId": {
+                          "type": "string"
+                        },
+                        "list": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "required": [
+                        "userId",
+                        "list"
+                      ],
+                      "x-apifox-orders": [
+                        "userId",
+                        "list"
+                      ],
+                      "x-apifox-ignore-properties": []
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "msg",
+                    "data"
+                  ],
+                  "x-apifox-orders": [
+                    "code",
+                    "msg",
+                    "data"
+                  ],
+                  "x-apifox-ignore-properties": []
+                },
+                "examples": {
+                  "1": {
+                    "summary": "成功示例",
+                    "value": {
+                      "code": 1,
+                      "msg": "查询成功",
+                      "data": {
+                        "userId": "6afec9c4-66ef-4dc1-94ed-99441d3484cb",
+                        "list": [
+                          "43309ea5-965c-4912-862c-17024305e687",
+                          "e0decba0-0d4e-4319-82e6-51cf9bc6e42b",
+                          "78592572-6205-4396-8136-eaf04ef86258",
+                          "5532f750-fe07-4a1e-ba1e-9f4beafba9a3",
+                          "d2325161-4ca0-463c-9f76-969fcaca48a8",
+                          "52f6d098-6d93-475a-b315-69416e0faad7",
+                          "dda02ef5-796e-4d95-8abd-66e9120ab021",
+                          "5c5b6ba0-d184-4441-b50b-98033bbe5e89",
+                          "8c340b68-40ec-41b1-95e8-07242556a5ce",
+                          "c490d954-5a91-4ec1-8fb6-ec301058a6d1",
+                          "391a67f3-d45a-4b16-a117-1a75e4f7a04c",
+                          "493bd88b-358e-4637-a5a9-f30ce8c560e7",
+                          "8fbfa09e-052d-4bd9-a3bd-507b7600ba8f",
+                          "03b4860c-02d5-4722-854b-8ceaa5c3f1d8",
+                          "84f4369a-f559-412a-9030-6538b4222d0b",
+                          "ab0ccd43-2916-4201-9a07-5b7330aa9a26"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/4399114/apis/api-174213056-run",
+        "security": []
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "VerificationCodeVO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "null",
+            "description": "返回的数据"
+          },
+          "code": {
+            "type": "integer",
+            "description": "返回的状态码",
+            "default": 1,
+            "examples": [
+              1
+            ]
+          },
+          "msg": {
+            "type": "string",
+            "description": "返回的信息",
+            "enum": [
+              "发送成功",
+              "发送失败"
+            ],
+            "x-apifox": {
+              "enumDescriptions": {
+                "发送成功": "",
+                "发送失败": ""
+              }
+            }
+          }
+        },
+        "x-apifox-refs": {},
+        "x-apifox-orders": [
+          "data",
+          "code",
+          "msg"
+        ],
+        "required": [
+          "data",
+          "code",
+          "msg"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "用户/注册登陆"
+      },
+      "LoginRequest": {
+        "type": "object",
+        "properties": {
+          "phoneNumber": {
+            "type": "string",
+            "title": "手机号",
+            "description": "11位手机号码"
+          },
+          "email": {
+            "type": "string",
+            "title": "邮箱",
+            "description": "最小长度为1，最大长度为30，只能包含字母、数字、下划线,必须包含@"
+          },
+          "password": {
+            "type": "string",
+            "title": "密码",
+            "description": "最小长度为6，最大长度为20，只能包含字母、数字、下划线,必须数字与字母混合使用",
+            "minLength": 6,
+            "maxLength": 20
+          },
+          "registerPattern": {
+            "type": "string",
+            "enum": [
+              "Email",
+              "Phone"
+            ],
+            "x-apifox": {
+              "enumDescriptions": {
+                "Email": "",
+                "Phone": ""
+              }
+            },
+            "title": "注册模式",
+            "description": "支持邮箱/手机号注册 type是枚举类型"
+          }
+        },
+        "x-apifox-refs": {},
+        "x-apifox-orders": [
+          "phoneNumber",
+          "email",
+          "password",
+          "registerPattern"
+        ],
+        "required": [
+          "password",
+          "registerPattern"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "用户/注册登陆"
+      },
+      "RegisterRequest": {
+        "type": "object",
+        "properties": {
+          "phoneNumber": {
+            "type": "string",
+            "title": "手机号",
+            "description": "11位手机号码"
+          },
+          "email": {
+            "type": "string",
+            "title": "邮箱",
+            "description": "最小长度为1，最大长度为30，只能包含字母、数字、下划线,必须包含@"
+          },
+          "password": {
+            "type": "string",
+            "title": "密码",
+            "description": "最小长度为6，最大长度为20，只能包含字母、数字、下划线,必须数字与字母混合使用",
+            "minLength": 6,
+            "maxLength": 20
+          },
+          "verificationCode": {
+            "type": "integer",
+            "title": "验证码",
+            "description": "6位数字的验证码"
+          },
+          "registerPattern": {
+            "type": "string",
+            "enum": [
+              "Email",
+              "Phone"
+            ],
+            "x-apifox": {
+              "enumDescriptions": {
+                "Email": "",
+                "Phone": ""
+              }
+            },
+            "title": "注册模式",
+            "description": "支持邮箱/手机号注册 type是枚举类型"
+          }
+        },
+        "required": [
+          "password",
+          "registerPattern",
+          "verificationCode"
+        ],
+        "x-apifox-orders": [
+          "phoneNumber",
+          "email",
+          "password",
+          "verificationCode",
+          "registerPattern"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "用户/注册登陆"
+      },
+      "LoginVO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "token": {
+                "type": "string",
+                "description": "token"
+              }
+            },
+            "x-apifox-orders": [
+              "token"
+            ],
+            "required": [
+              "token"
+            ],
+            "x-apifox-ignore-properties": []
+          },
+          "code": {
+            "type": "integer"
+          },
+          "msg": {
+            "type": "string"
+          }
+        },
+        "x-apifox-refs": {},
+        "x-apifox-orders": [
+          "data",
+          "code",
+          "msg"
+        ],
+        "required": [
+          "data",
+          "code",
+          "msg"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "用户/注册登陆"
+      },
+      "RegisterVO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "token": {
+                "type": "string",
+                "description": "token"
+              }
+            },
+            "x-apifox-orders": [
+              "token"
+            ],
+            "required": [
+              "token"
+            ],
+            "x-apifox-ignore-properties": []
+          },
+          "code": {
+            "type": "integer"
+          },
+          "msg": {
+            "type": "string"
+          }
+        },
+        "x-apifox-refs": {},
+        "x-apifox-orders": [
+          "data",
+          "code",
+          "msg"
+        ],
+        "required": [
+          "data",
+          "code",
+          "msg"
+        ],
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": "用户/注册登陆"
+      },
+      "RespondVO": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {},
+            "x-apifox-orders": [],
+            "description": "返回的数据",
+            "x-apifox-ignore-properties": []
+          },
+          "code": {
+            "type": "integer",
+            "description": "返回的状态码",
+            "default": 1
+          },
+          "msg": {
+            "type": "string",
+            "description": "返回的信息"
+          }
+        },
+        "required": [
+          "data",
+          "code",
+          "msg"
+        ],
+        "x-apifox-orders": [
+          "data",
+          "code",
+          "msg"
+        ],
+        "description": "返回的响应体",
+        "x-apifox-ignore-properties": [],
+        "x-apifox-folder": ""
+      }
+    },
+    "securitySchemes": {}
+  },
+  "servers": []
+}
