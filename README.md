@@ -1,6 +1,8 @@
 # EduMindAI 智慧AI助手
 ## 简述
 EduMindAI 是一个基于大语言模型的智能助手，主要的目标人群是学生以及老师
+![img_4.png](img_4.png)
+上图是EduMindAI的V1.0.0版本，目前支持文本生成图片、模型切换、声音转文字等功能.
 ## 版本信息
 ### 版本 1.0.0
 
@@ -58,9 +60,29 @@ EduMindAI 是一个基于大语言模型的智能助手，主要的目标人群�
 ### 演示
 [点击查看演示视频](https://nanfangshaonian.feishu.cn/file/VTfDbgp2goPulgxvIF0c31eUnnb)  
 ![点击查看演示视频](https://img.shields.io/badge/演示视频-点击查看-blue)
+
 ## 项目亮点
-1. **多模型支持**：系统使用多个大语言模型，根据不同的应用场景进行切换，以提高效率和准确性。
-2. 
+1. **安全性保障**：
+- 登陆框架选择了Spring Security,结合JWT技术，实现了**用户认证与授权**。
+- 数据库**权限控制**采用了ABAC权限管理模型，细分权限，确保敏感数据仅限授权人员访问。
+- 采用了**定期数据库备份**策略，通过 Shell 脚本实现，以应对意外数据丢失或损坏的情况。
+- 视频id号采用**雪花算法**随机生成，**防止id重复引起数据插入异常,并有效防止恶意爬虫视频**。
+- 使用**AOP切面**加入**ip地址黑名单**机制以及**访问频率限制**，防止恶意访问,爬虫访问。
+- 采取**HTTPS**协议,配置SSL证书,信息加密传输,防止数据在传输过程中被窃取或篡改。
+
+2. **多模型支持**：系统接入多个大语言模型，**根据不同的应用场景进行切换**，以提高效率和准确性。计划接入模型包括：讯飞星火、openai chatgpt 3.5、Gemini 允许在运行时切换语言模型，以便根据实时需求进行调整。
+
+3. **采取Websocket通信,并实现流式传输**: 程序采用原生的Websocket通信，并实现了**流式传输**，减少用户等待时间,使得**用户体验更加流畅**。
+
+4. **注册采取策略模式,并结合使用Spring Security**:
+   1. 程序**采用策略模式结合多个实现类实现了Security的UserDetails接口**,支持**邮箱注册**以及**手机号注册**
+   2. 验证码存入**Redis缓存**中，**避免了频繁的请求数据库,以及有效的控制了验证码的时效性**。
+
+5. **采取多线程进行模型调用**: 程序IflytekThread类继承了Thread,并重写了run方法,使用start方法开启另一个线程进行模型调用，**提高系统的吞吐量**，**提升系统的响应速度**,**减少用户等待时间**
+
+
+这些措施不仅**提升了系统的安全性和稳定性**，还**优化了用户体验**，提高了系统的性能和响应速度，为项目的成功运行和用户满意度提供了坚实保障。
+
 ## 设计
 
 ### 应用架构设计
@@ -68,10 +90,14 @@ EduMindAI 是一个基于大语言模型的智能助手，主要的目标人群�
 ### 业务设计
 ![img.png](img.png)
 ![img_1.png](img_1.png)
-上图是这个程序V 1.0.0 版本的流程图以及用例图
+上图是这个程序V 1.0.0 版本的活动状态图以及用例图
 
+![img_3.png](img_3.png)
+上图是这个程序V 1.0.0 版本的业务层UML类图
 
 ### Sql 设计
+![img_2.png](img_2.png)
+上图是这个程序V 1.0.0 版本的数据库UML类图
 
 ### API设计
 
@@ -110,15 +136,16 @@ EduMindAI 是一个基于大语言模型的智能助手，主要的目标人群�
     2. 执行`docker build -t evn:latest .`命令构建环境镜像,此镜像包含JDK 21, Postgresql 16, Redis 7.0.8, MongoDB 7.0, Minio 2022-04-16T04-26-02Z
 
 2. **构建程序镜像**:
-    1. 如果域名回调地址不变情况下: 进入doc/docker/run 文件夹 执行`docker build -t run:latest .`命令构建程序镜像
+    1. 如果讯飞开发参数配置不变情况下: 进入doc/docker/run 文件夹 执行`docker build -t run:latest .`命令构建程序镜像
 
-    2. 如果域名回调地址改变情况下:
-        1. 修改 **application.yml** 文件中的回调地址,将域名换成你的域名,并确保选择环境 active docker
+    2. 如果讯飞开发参数配置改变情况下:
+        1. 修改 **application-docker.yml** 文件中的讯飞参数换成自己的参数,并确保选择环境 **application.yaml** 中的 active docker
         2. 执行`mvn -U clean package -Dmaven.test.skip=true`命令打包
         3. 将jar放入doc/docker/run 文件夹下(确保jar名称为 edumindai.jar)
+        4. 再进行构建程序镜像第一步操作
 
 
 3. **运行镜像**:
     1. 创建共享网络: `docker network create evn_net`
-    2. 运行环境镜像 : `docker run -d --network=evn_net -p 3306:3306 -p 6379:6379 -p 27017:27017 -p 9000:9000 --name evn evn:latest`
+    2. 运行环境镜像 : `docker run -d --network=evn_net -p 5432:5432 -p 6379:6379 -p 27017:27017 -p 9000:9000 --name evn evn:latest`
     3. 运行程序镜像: `docker run -d -p 443:443 --network=evn_net --name run run:latest`

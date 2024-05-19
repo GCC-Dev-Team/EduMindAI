@@ -1,0 +1,231 @@
+@startuml
+interface edumindai.service.UserService {
+~ Response<LoginVO> login(LoginRequest)
+~ Response<RegisterVO> register(RegisterRequest)
+~ User getUserByPhone(String)
+~ User getUserByEmail(String)
+~ Response getTopics()
+}
+
+class edumindai.service.RegisterContext {
+- Map<RegisterPattern,RegisterStrategy> registerStrategies
++ User registerOperation(RegisterRequest)
+}
+
+
+interface edumindai.service.RegisterStrategy {
+~ User registerOperation(RegisterRequest)
+}
+
+interface edumindai.service.AIService {
+~ void sendQuestionAndAnswer(Question)
+}
+
+class edumindai.service.impl.MinioProcessServiceImpl {
+~ MinioUtil minioUtil
++ String upload(MultipartFile,String,String)
++ String getUrlByName(String)
++ boolean remove(String)
+}
+
+
+class edumindai.service.impl.PhoneRegisterStrategy {
+- VerificationService verificationService
++ User registerOperation(RegisterRequest)
+}
+
+
+interface edumindai.service.UserTopicAssociationService {
+~ boolean insertTopic(String,String)
+~ List<UserTopicAssociation> findMyTopic(String)
+~ boolean deleteOneByTopicId(String)
+~ boolean checkUserIdAndTopicId(String,String)
+}
+
+class edumindai.service.websocket.IflytekClient {
++ {static} Gson gson
+~ Session session
+- String topicId
++ boolean isClose
+- Queue<Answer> messageQueue
++ {static} Map<String,Queue<Answer>> messageMap
++ void open(Session)
++ void onClose()
++ void onMessage(String)
++ void sendMessage(String)
++ void close()
+}
+
+
+class edumindai.service.impl.UserServiceImpl {
+- UserMapper userMapper
+~ AuthenticationManager authenticationManager
+~ RegisterContext registerContext
+~ UserTopicAssociationService userTopicAssociationService
++ Response<LoginVO> login(LoginRequest)
++ Response<RegisterVO> register(RegisterRequest)
++ User getUserByPhone(String)
++ User getUserByEmail(String)
++ void saveUser(User)
++ {static} User createUser(RegisterRequest)
++ Response getTopics()
+}
+
+
+class edumindai.service.websocket.AIWebSocketServer {
+- {static} MongoTemplate mongoTemplate
+- {static} UserTopicAssociationService userTopicAssociationService
+- String userId
+- String topicId
+- List<Answer> answers
+- Session session
+- boolean insertTopicIntoSql
+- {static} CopyOnWriteArraySet<AIWebSocketServer> webSockets
+- {static} ConcurrentHashMap<String,Session> sessionPool
++ void setMongoTemplate(MongoTemplate)
++ void setUserTopicAssociationService(UserTopicAssociationService)
++ void onOpen(Session)
++ void onClose()
++ void onMessage(Session,String)
++ void onError(Session,Throwable)
++ void sendAllMessage(String)
++ void sendOneMessage(String,String)
++ void sendMoreMessage(Integer[],String)
+~ void sendMessageToUser(String)
+- List<IflytekRoleContent> getRoleContentHistoryList(Integer)
+- boolean checkUserIdAndTopicId(String,String)
+}
+
+
+class edumindai.service.impl.EmailRegisterStrategy {
+- VerificationService verificationService
++ User registerOperation(RegisterRequest)
+}
+
+
+class edumindai.service.websocket.IflytekSocketServer {
+~ {static} int count
+- MongoTemplate mongoTemplate
+- UserTopicAssociationService userTopicAssociationService
+- String userId
+- String topicId
+- List<Answer> answers
+- WebSocketSession session
+- {static} CopyOnWriteArraySet<IflytekSocketServer> webSockets
+- {static} ConcurrentHashMap<String,WebSocketSession> sessionPool
++ void afterConnectionEstablished(WebSocketSession)
+# void handleTextMessage(WebSocketSession,TextMessage)
++ void afterConnectionClosed(WebSocketSession,CloseStatus)
+~ void sendMessageToUser(String)
+- List<IflytekRoleContent> getRoleContentHistoryList(Integer)
+- boolean checkUserIdAndTopicId(String,String)
+}
+
+
+class edumindai.service.impl.UserTopicAssociationServiceImpl {
+- UserTopicAssociationMapper userTopicAssociationMapper
++ boolean insertTopic(String,String)
++ List<UserTopicAssociation> findMyTopic(String)
++ boolean deleteOneByTopicId(String)
++ boolean checkUserIdAndTopicId(String,String)
+}
+
+
+class edumindai.service.impl.IflytekServiceImpl {
+~ IflytekUtil iflytekUtil
++ IflytekClient client(String)
++ void sendQuestionAndAnswer(Question)
+}
+
+
+class edumindai.service.impl.security.PhoneLoginUserDetailsImpl {
+- User user
++ User getUser()
++ Collection<? extends GrantedAuthority> getAuthorities()
++ String getPassword()
++ String getUsername()
++ boolean isAccountNonExpired()
++ boolean isAccountNonLocked()
++ boolean isCredentialsNonExpired()
++ boolean isEnabled()
+}
+
+
+interface edumindai.service.EmailService {
+~ void sendSimpleMail(String,String,String)
++ void sendHtmlMail(String,String,String)
++ void sendAttachmentsMail(String,String,String,String)
+}
+
+class edumindai.service.impl.security.EmailLoginUserDetailsImpl {
+- User user
++ Collection<? extends GrantedAuthority> getAuthorities()
++ User getUser()
++ String getPassword()
++ String getUsername()
++ boolean isAccountNonExpired()
++ boolean isAccountNonLocked()
++ boolean isCredentialsNonExpired()
++ boolean isEnabled()
+}
+
+
+interface edumindai.service.VerificationService {
+~ Response verificationCode(String,String)
+~ void verificationCodeCheck(String,String)
+}
+
+class edumindai.service.LoginContext {
+- UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
++ UsernamePasswordAuthenticationToken getUsernamePasswordAuthenticationToken()
+}
+
+
+class edumindai.service.impl.security.LoadUserUserDetailsServiceImpl {
+- UserMapper userMapper
++ UserDetails loadUserByUsername(String)
+}
+
+
+class edumindai.service.impl.EmailServiceImpl {
+- Logger logger
+- JavaMailSender mailSender
+- String from
++ void sendSimpleMail(String,String,String)
++ void sendHtmlMail(String,String,String)
++ void sendAttachmentsMail(String,String,String,String)
+}
+
+
+class edumindai.service.impl.VerificationServiceImpl {
+- {static} Logger log
+- EmailService emailService
+- RedisCache redisCache
+- {static} int VERIFY_CODE_EXPIRED_TIME
++ Response verificationCode(String,String)
++ void verificationCodeCheck(String,String)
+- {static} String generateVarifyCode()
+}
+
+
+interface edumindai.service.FileProcessService {
+~ String upload(MultipartFile,String,String)
+~ String getUrlByName(String)
+~ boolean remove(String)
+}
+
+
+
+edumindai.service.FileProcessService <|.. edumindai.service.impl.MinioProcessServiceImpl
+edumindai.service.RegisterStrategy <|.. edumindai.service.impl.PhoneRegisterStrategy
+edumindai.service.UserService <|.. edumindai.service.impl.UserServiceImpl
+edumindai.service.RegisterStrategy <|.. edumindai.service.impl.EmailRegisterStrategy
+org.springframework.web.socket.handler.TextWebSocketHandler <|-- edumindai.service.websocket.IflytekSocketServer
+edumindai.service.UserTopicAssociationService <|.. edumindai.service.impl.UserTopicAssociationServiceImpl
+edumindai.service.AIService <|.. edumindai.service.impl.IflytekServiceImpl
+org.springframework.security.core.userdetails.UserDetails <|.. edumindai.service.impl.security.PhoneLoginUserDetailsImpl
+org.springframework.security.core.userdetails.UserDetails <|.. edumindai.service.impl.security.EmailLoginUserDetailsImpl
+org.springframework.security.core.userdetails.UserDetailsService <|.. edumindai.service.impl.security.LoadUserUserDetailsServiceImpl
+edumindai.service.EmailService <|.. edumindai.service.impl.EmailServiceImpl
+edumindai.service.VerificationService <|.. edumindai.service.impl.VerificationServiceImpl
+@enduml
