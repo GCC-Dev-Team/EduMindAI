@@ -2,9 +2,12 @@ server:
   port: 8000
 spring:
   datasource:
+    testWhileIdle : true
+    testOnBorrow : true
     url: jdbc:postgresql://114.132.67.226:5432/edumindai
     username: root
     password: abC123456@
+
   data:
     redis:
       host: 114.132.67.226

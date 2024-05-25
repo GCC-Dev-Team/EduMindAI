@@ -1,5 +1,6 @@
 package edumindai.controller;
 
+import edumindai.anno.NoNeedLogin;
 import edumindai.common.Response;
 import edumindai.service.VerificationService;
 import jakarta.annotation.Resource;
@@ -14,6 +15,7 @@ public class VerificationController {
     @Resource
     private VerificationService verificationService;
     @GetMapping("/verificationCode")
+    @NoNeedLogin
     public Response verificationCode(String phoneNumber,String email)
     {
         return verificationService.verificationCode(phoneNumber,email);

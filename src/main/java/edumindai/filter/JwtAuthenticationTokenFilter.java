@@ -15,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -41,6 +42,15 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
         // 从请求头中获取 Token
         String token = extractTokenFromHeader(request);
+
+        if (!StringUtils.hasText(token)){
+            System.out.println("我进来了");
+            //说明改接口不需要登录,直接放行
+            filterChain.doFilter(request,response);
+
+
+            return;
+        }
 
         if (token != null) {
 
