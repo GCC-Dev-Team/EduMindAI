@@ -70,7 +70,7 @@ EduMindAI 是一个基于大语言模型的智能助手，主要的目标人群�
 **当前版本**V 1.0.0 
 
 ### 演示
-[点击查看演示视频](https://nanfangshaonian.feishu.cn/file/VTfDbgp2goPulgxvIF0c31eUnnb)  
+[点击查看演示视频](https://nanfangshaonian.feishu.cn/file/CEQ6bsrSOoQzkOxEbn9cqC0ynuf)  
 ![点击查看演示视频](https://img.shields.io/badge/演示视频-点击查看-blue)
 
 ## 项目亮点
