@@ -1,12 +1,15 @@
 package edumindai.service.websocket;
 
 
+import com.alibaba.fastjson.JSON;
 import edumindai.enums.IflytekRoleEnum;
 import edumindai.exception.ServiceException;
+import edumindai.model.bo.MessageBO;
 import edumindai.model.entity.Answer;
 import edumindai.model.entity.AnswerMessages;
 import edumindai.model.entity.IflytekRoleContent;
 import edumindai.model.entity.Question;
+import edumindai.service.PromptsService;
 import edumindai.service.UserTopicAssociationService;
 import edumindai.thread.IflytekThread;
 import jakarta.websocket.*;
@@ -54,6 +57,15 @@ public class AIWebSocketServer {
 
         AIWebSocketServer.userTopicAssociationService=userTopicAssociationService;
     };
+
+    //负责Prompt参数
+
+    private static PromptsService promptsService;
+
+    @Autowired
+    public  void setPromptServer(PromptsService promptsService){
+        AIWebSocketServer.promptsService=promptsService;
+    }
 
     /**
      * 用户ID
@@ -197,11 +209,35 @@ public class AIWebSocketServer {
     @OnMessage
     public void onMessage(Session session,String message) throws InterruptedException {
 
+
+        //将Json转成对象
+        MessageBO messageBO = JSON.parseObject(message, MessageBO.class);
+
+        //第一次提问使用参数或者自定义prompt参数
+        if (messageBO.getStatus()==0){
+
+            if (messageBO.getPrompt()==null){
+                //使用参数id
+                String question = promptsService.setQuestion(messageBO.getPromptId(), messageBO.getQuestion());
+
+                messageBO.setQuestion(question);
+
+
+            }else {
+                //自定义参数
+
+                String question=messageBO.getPrompt()+"我的题目是:"+messageBO.getQuestion();
+
+                messageBO.setQuestion(question);
+
+            }
+        }
+
         //用户发送的提问信息保存在list中
         Answer answer = new Answer();
         answer.setRole(IflytekRoleEnum.User);
-        answer.setContent(message);
-        answer.setTokenSumCount(message.length());
+        answer.setContent(messageBO.getQuestion());
+        answer.setTokenSumCount(messageBO.getQuestion().length());
 
 
         this.answers.add(answer);

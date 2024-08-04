@@ -26,12 +26,17 @@ public class PhoneRegisterStrategy implements RegisterStrategy {
         //验证验证码是否正确
         try {
 
+            //验证码判断
             verificationService.verificationCodeCheck(registerRequest.getPhoneNumber(), registerRequest.getVerificationCode());
 
 
             User user = UserServiceImpl.createUser(registerRequest);
 
             user.setRegisterPattern(RegisterPattern.Phone);
+
+            //删除验证码
+
+            verificationService.verificationDelete(registerRequest.getPhoneNumber());
 
             return user;
 

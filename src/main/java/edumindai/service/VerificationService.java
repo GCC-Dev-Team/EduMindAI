@@ -27,4 +27,11 @@ public interface VerificationService {
      * @param verificationCode 验证码
      */
      void verificationCodeCheck(String key, String verificationCode) throws Exception;
+
+    /**
+     * 验证码删除
+     * @param key
+     * @return
+     */
+     boolean verificationDelete(String key);
 }

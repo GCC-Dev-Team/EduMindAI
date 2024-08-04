@@ -2,12 +2,23 @@ server:
   port: 8000
 spring:
   datasource:
-    testWhileIdle : true
-    testOnBorrow : true
+    type: com.zaxxer.hikari.HikariDataSource
+#    testWhileIdle : true
+#    testOnBorrow : true
     url: jdbc:postgresql://114.132.67.226:5432/edumindai
     username: root
     password: abC123456@
 
+  hikari:
+    auto-commit: true
+    connection-test-query: SELECT 1
+    connection-timeout: 10000
+    idle-timeout: 30000
+    max-lifetime: 400000 # 设置为400s
+    maximum-pool-size: 30
+    minimum-idle: 10
+    pool-name: HikariCP
+    validation-timeout: 1000
   data:
     redis:
       host: 114.132.67.226

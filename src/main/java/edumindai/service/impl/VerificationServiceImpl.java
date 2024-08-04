@@ -43,6 +43,8 @@ public class VerificationServiceImpl implements VerificationService {
 
         if (phoneNumber != null) {
 
+            //这个手机号有没有注册
+
             redisCache.setCacheObject(phoneNumber, verifyCode, VERIFY_CODE_EXPIRED_TIME, TimeUnit.SECONDS);
 
             //TODO 手机验证码发送功能,所以直接返回先,后续发送给手机
@@ -52,6 +54,7 @@ public class VerificationServiceImpl implements VerificationService {
 
         } else if (email != null) {
 
+            //这个邮箱有没有注册(需要判断)
 
             redisCache.setCacheObject(email, verifyCode, VERIFY_CODE_EXPIRED_TIME, TimeUnit.SECONDS);
 
@@ -92,7 +95,7 @@ public class VerificationServiceImpl implements VerificationService {
 
         if (verifyBool) {
 
-            redisCache.deleteObject(key);
+
 
             return;
         }
@@ -100,6 +103,31 @@ public class VerificationServiceImpl implements VerificationService {
         throw new Exception("验证码校验错误");
     }
 
+    /**
+     * 删除验证码
+     * @param key 手机号/邮箱
+     * @return
+     */
+    @Override
+    public boolean verificationDelete(String key) {
+
+        boolean delete ;
+
+        try {
+            //删除成功的
+            delete = redisCache.deleteObject(key);
+
+        }catch (Exception e){
+
+            //删除失败的,可能键值对为null
+            e.printStackTrace();
+
+            delete = false;
+
+        }
+
+        return delete;
+    }
 
     /**
      * 生成六位数字的验证码

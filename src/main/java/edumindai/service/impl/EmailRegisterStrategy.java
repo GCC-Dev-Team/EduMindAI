@@ -34,12 +34,16 @@ public class EmailRegisterStrategy implements RegisterStrategy {
         //验证验证码是否正确
         try {
 
-            verificationService.verificationCodeCheck(registerRequest.getEmail(), registerRequest.getVerificationCode());
 
+            //验证码校验,如果错误会抛出错误
+            verificationService.verificationCodeCheck(registerRequest.getEmail(), registerRequest.getVerificationCode());
 
             User user = UserServiceImpl.createUser(registerRequest);
 
             user.setRegisterPattern(RegisterPattern.Email);
+
+            //用户注册成功删除验证码(不一定能删除成功,1.注册时验证码没有过期,注册后验证码过期了(时间差距) )
+            verificationService.verificationDelete(registerRequest.getEmail());
 
             return user;
 

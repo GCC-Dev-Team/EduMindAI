@@ -21,6 +21,7 @@ import edumindai.service.UserService;
 import edumindai.service.UserTopicAssociationService;
 import edumindai.utils.ContextHolder;
 import edumindai.utils.JwtUtil;
+import edumindai.utils.RegexCheckUtil;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -194,6 +195,27 @@ public class UserServiceImpl implements UserService {
 
         return user;
     }
+
+//    /**
+//     * 验证账号是否存在
+//     * @param key 邮箱号或者手机号
+//     * @return ture就是有
+//     */
+//    public static boolean verificationHave(String key){
+//        //判断是否是邮箱类型
+//        boolean emailType = RegexCheckUtil.isEmail(key);
+//
+//        if (emailType){
+//
+//            //邮箱查看是否存在
+//        }else {
+//
+//            //手机号查看是否存在
+//
+//
+//        }
+//
+//    }
 
     @Override
     public Response getTopics() {
